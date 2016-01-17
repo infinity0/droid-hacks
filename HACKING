@@ -1,0 +1,15 @@
+Install build-deps:
+
+  $ apt-get install nikola ghp-import
+
+Build:
+
+  $ nikola build
+
+Deploy to Github Pages:
+
+  $ nikola github_deploy
+
+More info:
+
+https://getnikola.com/handbook.html
