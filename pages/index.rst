@@ -30,5 +30,5 @@ Software
 Miscellaneous
 -------------
 
-* :doc:`misc/force-adb` (TODO)
-* :doc:`misc/screencast` (TODO)
+* :doc:`misc/force-adb`
+* :doc:`misc/screencast`
