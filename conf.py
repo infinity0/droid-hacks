@@ -203,7 +203,10 @@ TIMEZONE = "UTC"
 #
 
 POSTS = [] # [("posts/*.txt", "blog", "post.tmpl", True)]
-PAGES = [("pages/*.rst", "", "story.tmpl")]
+PAGES = [("pages/%s*.rst" % subdir, "", "story.tmpl")
+  for subdir in ("hw/", "sw/", "misc/", "")]
+# we need to do this otherwise we get urls like sw/sw/owndata
+# TODO: file upstream to nikola
 
 # One or more folders containing files to be copied as-is into the output.
 # The format is a dictionary of {source: relative destination}.
