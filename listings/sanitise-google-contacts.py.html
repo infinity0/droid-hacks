@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<base href="https://infinity0.github.io/droid-hacks/listings/sanitise-google-contacts.py.html">
+<meta name="description" content="sanitise-google-contacts.py">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sanitise-google-contacts.py | Android FOSS+H hacks</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="https://infinity0.github.io/droid-hacks/listings/sanitise-google-contacts.py.html">
+<!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://infinity0.github.io/droid-hacks/">
+
+                <span id="blog-title">Android FOSS+H hacks</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../categories/">Tags</a>
+                </li>
+<li>
+<a href="../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="sanitise-google-contacts.py" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+
+<nav class="breadcrumbs"><ul class="breadcrumb">
+<li><a href=".">listings</a></li>
+                <li>sanitise-google-contacts.py</li>
+</ul></nav><table class="codetable"><tr>
+<td class="linenos"><div class="linenodiv"><pre><a href="#listingssanitise-google-contactspy-1"> 1</a>
+<a href="#listingssanitise-google-contactspy-2"> 2</a>
+<a href="#listingssanitise-google-contactspy-3"> 3</a>
+<a href="#listingssanitise-google-contactspy-4"> 4</a>
+<a href="#listingssanitise-google-contactspy-5"> 5</a>
+<a href="#listingssanitise-google-contactspy-6"> 6</a>
+<a href="#listingssanitise-google-contactspy-7"> 7</a>
+<a href="#listingssanitise-google-contactspy-8"> 8</a>
+<a href="#listingssanitise-google-contactspy-9"> 9</a>
+<a href="#listingssanitise-google-contactspy-10">10</a>
+<a href="#listingssanitise-google-contactspy-11">11</a>
+<a href="#listingssanitise-google-contactspy-12">12</a>
+<a href="#listingssanitise-google-contactspy-13">13</a>
+<a href="#listingssanitise-google-contactspy-14">14</a>
+<a href="#listingssanitise-google-contactspy-15">15</a>
+<a href="#listingssanitise-google-contactspy-16">16</a>
+<a href="#listingssanitise-google-contactspy-17">17</a>
+<a href="#listingssanitise-google-contactspy-18">18</a>
+<a href="#listingssanitise-google-contactspy-19">19</a>
+<a href="#listingssanitise-google-contactspy-20">20</a>
+<a href="#listingssanitise-google-contactspy-21">21</a>
+<a href="#listingssanitise-google-contactspy-22">22</a>
+<a href="#listingssanitise-google-contactspy-23">23</a>
+<a href="#listingssanitise-google-contactspy-24">24</a>
+<a href="#listingssanitise-google-contactspy-25">25</a>
+<a href="#listingssanitise-google-contactspy-26">26</a>
+<a href="#listingssanitise-google-contactspy-27">27</a>
+<a href="#listingssanitise-google-contactspy-28">28</a>
+<a href="#listingssanitise-google-contactspy-29">29</a>
+<a href="#listingssanitise-google-contactspy-30">30</a>
+<a href="#listingssanitise-google-contactspy-31">31</a>
+<a href="#listingssanitise-google-contactspy-32">32</a>
+<a href="#listingssanitise-google-contactspy-33">33</a>
+<a href="#listingssanitise-google-contactspy-34">34</a>
+<a href="#listingssanitise-google-contactspy-35">35</a>
+<a href="#listingssanitise-google-contactspy-36">36</a>
+<a href="#listingssanitise-google-contactspy-37">37</a>
+<a href="#listingssanitise-google-contactspy-38">38</a>
+<a href="#listingssanitise-google-contactspy-39">39</a>
+<a href="#listingssanitise-google-contactspy-40">40</a>
+<a href="#listingssanitise-google-contactspy-41">41</a>
+<a href="#listingssanitise-google-contactspy-42">42</a>
+<a href="#listingssanitise-google-contactspy-43">43</a>
+<a href="#listingssanitise-google-contactspy-44">44</a>
+<a href="#listingssanitise-google-contactspy-45">45</a>
+<a href="#listingssanitise-google-contactspy-46">46</a>
+<a href="#listingssanitise-google-contactspy-47">47</a>
+<a href="#listingssanitise-google-contactspy-48">48</a>
+<a href="#listingssanitise-google-contactspy-49">49</a>
+<a href="#listingssanitise-google-contactspy-50">50</a>
+<a href="#listingssanitise-google-contactspy-51">51</a>
+<a href="#listingssanitise-google-contactspy-52">52</a>
+<a href="#listingssanitise-google-contactspy-53">53</a>
+<a href="#listingssanitise-google-contactspy-54">54</a>
+<a href="#listingssanitise-google-contactspy-55">55</a>
+<a href="#listingssanitise-google-contactspy-56">56</a>
+<a href="#listingssanitise-google-contactspy-57">57</a>
+<a href="#listingssanitise-google-contactspy-58">58</a>
+<a href="#listingssanitise-google-contactspy-59">59</a>
+<a href="#listingssanitise-google-contactspy-60">60</a>
+<a href="#listingssanitise-google-contactspy-61">61</a>
+<a href="#listingssanitise-google-contactspy-62">62</a>
+<a href="#listingssanitise-google-contactspy-63">63</a>
+<a href="#listingssanitise-google-contactspy-64">64</a>
+<a href="#listingssanitise-google-contactspy-65">65</a>
+<a href="#listingssanitise-google-contactspy-66">66</a>
+<a href="#listingssanitise-google-contactspy-67">67</a>
+<a href="#listingssanitise-google-contactspy-68">68</a>
+<a href="#listingssanitise-google-contactspy-69">69</a>
+<a href="#listingssanitise-google-contactspy-70">70</a>
+<a href="#listingssanitise-google-contactspy-71">71</a>
+<a href="#listingssanitise-google-contactspy-72">72</a>
+<a href="#listingssanitise-google-contactspy-73">73</a>
+<a href="#listingssanitise-google-contactspy-74">74</a>
+<a href="#listingssanitise-google-contactspy-75">75</a>
+<a href="#listingssanitise-google-contactspy-76">76</a>
+<a href="#listingssanitise-google-contactspy-77">77</a>
+<a href="#listingssanitise-google-contactspy-78">78</a>
+<a href="#listingssanitise-google-contactspy-79">79</a>
+<a href="#listingssanitise-google-contactspy-80">80</a>
+<a href="#listingssanitise-google-contactspy-81">81</a>
+<a href="#listingssanitise-google-contactspy-82">82</a>
+<a href="#listingssanitise-google-contactspy-83">83</a>
+<a href="#listingssanitise-google-contactspy-84">84</a>
+<a href="#listingssanitise-google-contactspy-85">85</a>
+<a href="#listingssanitise-google-contactspy-86">86</a>
+<a href="#listingssanitise-google-contactspy-87">87</a>
+<a href="#listingssanitise-google-contactspy-88">88</a>
+<a href="#listingssanitise-google-contactspy-89">89</a>
+<a href="#listingssanitise-google-contactspy-90">90</a>
+<a href="#listingssanitise-google-contactspy-91">91</a>
+<a href="#listingssanitise-google-contactspy-92">92</a>
+<a href="#listingssanitise-google-contactspy-93">93</a>
+<a href="#listingssanitise-google-contactspy-94">94</a>
+<a href="#listingssanitise-google-contactspy-95">95</a>
+<a href="#listingssanitise-google-contactspy-96">96</a>
+<a href="#listingssanitise-google-contactspy-97">97</a></pre></div></td>
+<td class="code"><pre class="code literal-block"><a name="listingssanitise-google-contactspy-1"></a><span class="c">#!/usr/bin/python3</span>
+<a name="listingssanitise-google-contactspy-2"></a><span class="sd">"""Sanitise Google Contacts exported data.</span>
+<a name="listingssanitise-google-contactspy-3"></a>
+<a name="listingssanitise-google-contactspy-4"></a><span class="sd">Last updated 2014-11; Google may have changed their export format since then.</span>
+<a name="listingssanitise-google-contactspy-5"></a><span class="sd">Furthermore, this script is incomplete and only handles some parts of the</span>
+<a name="listingssanitise-google-contactspy-6"></a><span class="sd">export format. You should manually review the output and decide if it needs</span>
+<a name="listingssanitise-google-contactspy-7"></a><span class="sd">further sanitising. If so, please also send in a pull request.</span>
+<a name="listingssanitise-google-contactspy-8"></a>
+<a name="listingssanitise-google-contactspy-9"></a><span class="sd">Usage: $0 &lt;CSV export&gt; &lt;sanitised VCF&gt;</span>
+<a name="listingssanitise-google-contactspy-10"></a><span class="sd">"""</span>
+<a name="listingssanitise-google-contactspy-11"></a>
+<a name="listingssanitise-google-contactspy-12"></a><span class="kn">import</span> <span class="nn">csv</span>
+<a name="listingssanitise-google-contactspy-13"></a><span class="kn">import</span> <span class="nn">logging</span>
+<a name="listingssanitise-google-contactspy-14"></a><span class="kn">import</span> <span class="nn">sys</span>
+<a name="listingssanitise-google-contactspy-15"></a>
+<a name="listingssanitise-google-contactspy-16"></a><span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<a name="listingssanitise-google-contactspy-17"></a>
+<a name="listingssanitise-google-contactspy-18"></a><span class="n">keys</span> <span class="o">=</span> <span class="p">[]</span>
+<a name="listingssanitise-google-contactspy-19"></a>
+<a name="listingssanitise-google-contactspy-20"></a><span class="k">def</span> <span class="nf">process_entry</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">types</span><span class="p">):</span>
+<a name="listingssanitise-google-contactspy-21"></a>	<span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">" - Type"</span><span class="p">):</span>
+<a name="listingssanitise-google-contactspy-22"></a>		<span class="n">head</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">k</span><span class="p">[:</span><span class="o">-</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s">" "</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a name="listingssanitise-google-contactspy-23"></a>		<span class="n">types</span><span class="p">[(</span><span class="n">head</span><span class="p">,</span> <span class="n">tail</span><span class="p">)]</span> <span class="o">=</span> <span class="n">v</span>
+<a name="listingssanitise-google-contactspy-24"></a>		<span class="k">return</span>
+<a name="listingssanitise-google-contactspy-25"></a>	<span class="k">elif</span> <span class="n">k</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">" - Value"</span><span class="p">):</span>
+<a name="listingssanitise-google-contactspy-26"></a>		<span class="n">head</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">k</span><span class="p">[:</span><span class="o">-</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s">" "</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a name="listingssanitise-google-contactspy-27"></a>		<span class="n">k</span> <span class="o">=</span> <span class="s">":"</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">head</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">head</span><span class="p">,</span> <span class="n">tail</span><span class="p">),</span> <span class="s">""</span><span class="p">),</span> <span class="n">tail</span><span class="p">))</span>
+<a name="listingssanitise-google-contactspy-28"></a>	<span class="k">if</span> <span class="s">" ::: "</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-29"></a>		<span class="k">return</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">" ::: "</span><span class="p">)</span>
+<a name="listingssanitise-google-contactspy-30"></a>	<span class="k">else</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-31"></a>		<span class="k">return</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span>
+<a name="listingssanitise-google-contactspy-32"></a>
+<a name="listingssanitise-google-contactspy-33"></a><span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+<a name="listingssanitise-google-contactspy-34"></a>	<span class="k">return</span> <span class="n">l</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="k">else</span> <span class="p">[</span><span class="n">l</span><span class="p">]</span>
+<a name="listingssanitise-google-contactspy-35"></a>
+<a name="listingssanitise-google-contactspy-36"></a><span class="k">def</span> <span class="nf">dict_to_vcard</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+<a name="listingssanitise-google-contactspy-37"></a>	<span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="s">"BEGIN:VCARD"</span><span class="p">,</span> <span class="s">"VERSION:2.1"</span><span class="p">]</span>
+<a name="listingssanitise-google-contactspy-38"></a>	<span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">"FN:</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="n">obj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">"Name"</span><span class="p">))</span>
+<a name="listingssanitise-google-contactspy-39"></a>	<span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">"N:</span><span class="si">%s</span><span class="s">;</span><span class="si">%s</span><span class="s">;</span><span class="si">%s</span><span class="s">;</span><span class="si">%s</span><span class="s">;</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="p">(</span>
+<a name="listingssanitise-google-contactspy-40"></a>		<span class="n">obj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">"Family Name"</span><span class="p">,</span> <span class="s">""</span><span class="p">),</span>
+<a name="listingssanitise-google-contactspy-41"></a>		<span class="n">obj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">"Given Name"</span><span class="p">,</span> <span class="s">""</span><span class="p">),</span>
+<a name="listingssanitise-google-contactspy-42"></a>		<span class="n">obj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">"Additional Name"</span><span class="p">,</span> <span class="s">""</span><span class="p">),</span>
+<a name="listingssanitise-google-contactspy-43"></a>		<span class="n">obj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">"Name Prefix"</span><span class="p">,</span> <span class="s">""</span><span class="p">),</span>
+<a name="listingssanitise-google-contactspy-44"></a>		<span class="n">obj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">"Name Suffix"</span><span class="p">,</span> <span class="s">""</span><span class="p">)</span>
+<a name="listingssanitise-google-contactspy-45"></a>	<span class="p">))</span>
+<a name="listingssanitise-google-contactspy-46"></a>	<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+<a name="listingssanitise-google-contactspy-47"></a>		<span class="k">if</span> <span class="s">":"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-48"></a>			<span class="k">continue</span>
+<a name="listingssanitise-google-contactspy-49"></a>		<span class="n">head</span><span class="p">,</span> <span class="n">tail</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">":"</span><span class="p">)</span>
+<a name="listingssanitise-google-contactspy-50"></a>		<span class="c">#pref = ";PREF" if n == 1 else ""</span>
+<a name="listingssanitise-google-contactspy-51"></a>		<span class="n">vv</span> <span class="o">=</span> <span class="n">to_list</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+<a name="listingssanitise-google-contactspy-52"></a>
+<a name="listingssanitise-google-contactspy-53"></a>		<span class="k">if</span> <span class="n">head</span> <span class="o">==</span> <span class="s">"Phone"</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-54"></a>			<span class="n">head</span> <span class="o">=</span> <span class="s">"TEL"</span>
+<a name="listingssanitise-google-contactspy-55"></a>		<span class="k">elif</span> <span class="n">head</span> <span class="o">==</span> <span class="s">"E-mail"</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-56"></a>			<span class="n">head</span> <span class="o">=</span> <span class="s">"EMAIL"</span>
+<a name="listingssanitise-google-contactspy-57"></a>		<span class="k">elif</span> <span class="n">head</span> <span class="o">==</span> <span class="s">"Website"</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-58"></a>			<span class="n">head</span> <span class="o">=</span> <span class="s">"URL"</span>
+<a name="listingssanitise-google-contactspy-59"></a>		<span class="k">else</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-60"></a>			<span class="k">continue</span>
+<a name="listingssanitise-google-contactspy-61"></a>
+<a name="listingssanitise-google-contactspy-62"></a>		<span class="n">tail</span> <span class="o">=</span> <span class="p">(</span><span class="s">"CELL"</span> <span class="k">if</span> <span class="p">(</span><span class="n">tail</span> <span class="o">==</span> <span class="s">"Mobile"</span> <span class="ow">and</span> <span class="n">head</span> <span class="o">==</span> <span class="s">"TEL"</span><span class="p">)</span> <span class="k">else</span>
+<a name="listingssanitise-google-contactspy-63"></a>				<span class="s">"HOME"</span> <span class="k">if</span> <span class="n">tail</span> <span class="o">==</span> <span class="s">"Home"</span> <span class="k">else</span>
+<a name="listingssanitise-google-contactspy-64"></a>				<span class="s">"WORK"</span> <span class="k">if</span> <span class="n">tail</span> <span class="o">==</span> <span class="s">"Work"</span> <span class="k">else</span>
+<a name="listingssanitise-google-contactspy-65"></a>				<span class="s">"X-</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="n">tail</span> <span class="k">if</span> <span class="n">tail</span> <span class="k">else</span> <span class="s">""</span><span class="p">)</span>
+<a name="listingssanitise-google-contactspy-66"></a>		<span class="k">if</span> <span class="n">tail</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">"X-"</span><span class="p">):</span>
+<a name="listingssanitise-google-contactspy-67"></a>			<span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"saw unusual </span><span class="si">%s</span><span class="s"> type: </span><span class="si">%s</span><span class="s">"</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">tail</span><span class="p">)</span>
+<a name="listingssanitise-google-contactspy-68"></a>
+<a name="listingssanitise-google-contactspy-69"></a>		<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vv</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-70"></a>			<span class="k">if</span> <span class="n">tail</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-71"></a>				<span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">"</span><span class="si">%s</span><span class="s">;</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">tail</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+<a name="listingssanitise-google-contactspy-72"></a>			<span class="k">else</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-73"></a>				<span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">"</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+<a name="listingssanitise-google-contactspy-74"></a>		<span class="k">del</span> <span class="n">obj</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+<a name="listingssanitise-google-contactspy-75"></a>
+<a name="listingssanitise-google-contactspy-76"></a>	<span class="k">if</span> <span class="s">"Notes"</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-77"></a>		<span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">"NOTE:</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="n">obj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">"Notes"</span><span class="p">))</span>
+<a name="listingssanitise-google-contactspy-78"></a>	<span class="k">if</span> <span class="s">"Organization 1 - Name"</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-79"></a>		<span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">"ORG:</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="n">obj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">"Organization 1 - Name"</span><span class="p">))</span>
+<a name="listingssanitise-google-contactspy-80"></a>	<span class="k">if</span> <span class="s">"Group Membership"</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-81"></a>		<span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">"CATEGORIES:</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="s">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">to_list</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">"Group Membership"</span><span class="p">))))</span>
+<a name="listingssanitise-google-contactspy-82"></a>	<span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">"END:VCARD"</span><span class="p">)</span>
+<a name="listingssanitise-google-contactspy-83"></a>	<span class="k">if</span> <span class="n">obj</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-84"></a>		<span class="k">print</span><span class="p">(</span><span class="s">"DROPPED data:"</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+<a name="listingssanitise-google-contactspy-85"></a>	<span class="k">return</span> <span class="n">lines</span>
+<a name="listingssanitise-google-contactspy-86"></a>
+<a name="listingssanitise-google-contactspy-87"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">encoding</span><span class="o">=</span><span class="s">"utf-16"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">wfp</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-88"></a>	<span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>
+<a name="listingssanitise-google-contactspy-89"></a>	<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-90"></a>		<span class="k">if</span> <span class="ow">not</span> <span class="n">keys</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-91"></a>			<span class="n">keys</span> <span class="o">=</span> <span class="n">row</span>
+<a name="listingssanitise-google-contactspy-92"></a>			<span class="k">continue</span>
+<a name="listingssanitise-google-contactspy-93"></a>		<span class="n">types</span> <span class="o">=</span> <span class="p">{}</span>
+<a name="listingssanitise-google-contactspy-94"></a>		<span class="n">obj</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="p">[</span><span class="n">process_entry</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">types</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">row</span><span class="p">))]))</span>
+<a name="listingssanitise-google-contactspy-95"></a>		<span class="n">vcard</span> <span class="o">=</span> <span class="n">dict_to_vcard</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<a name="listingssanitise-google-contactspy-96"></a>		<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">vcard</span><span class="p">:</span>
+<a name="listingssanitise-google-contactspy-97"></a>			<span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="n">wfp</span><span class="p">)</span>
+</pre></td>
+</tr></table>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2016         <a href="mailto:infinity0@pwned.gg">Ximin Luo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<base href="https://infinity0.github.io/droid-hacks/misc/force-adb/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enable ADB in highly-constrained situations | Android FOSS+H hacks</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://infinity0.github.io/droid-hacks/misc/force-adb/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Ximin Luo">
+<meta property="og:site_name" content="Android FOSS+H hacks">
+<meta property="og:title" content="Enable ADB in highly-constrained situations">
+<meta property="og:url" content="https://infinity0.github.io/droid-hacks/misc/force-adb/">
+<meta property="og:description" content="&quot;Highly-constrained&quot; means that, for whatever reason, you can't go into the
+&quot;Developer options&quot; menu to enable &quot;Android debugging&quot; yourself. For example,
+your screen is cracked, or you forgot your scr">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-01-20T00:00:00Z">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://infinity0.github.io/droid-hacks/">
+
+                <span id="blog-title">Android FOSS+H hacks</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.rst" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="storypage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Enable ADB in highly-constrained situations</a></h1>
+
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>"Highly-constrained" means that, for whatever reason, you can't go into the
+"Developer options" menu to enable "Android debugging" yourself. For example,
+your screen is cracked, or you forgot your screen unlock password.</p>
+<p>However, you still need some physical way of communicating with your phone's
+ADB service <em>after</em> enabling it. These instructions won't work if your USB port
+is broken.</p>
+<div class="section" id="nexus-4-cm-12-1-android-5-1-1">
+<h2>Nexus 4, CM 12.1 / Android 5.1.1</h2>
+<p>The instructions below assume that your device is encrypted, and that you need
+an <tt class="docutils literal">adb shell</tt> both before and after decryption. If your requirements are
+less than this, you should be able to adapt the instructions accordingly.</p>
+<p>They also assume that you've used your computer to debug your phone before -
+i.e. that it is already authorized to debug your phone. If you haven't done
+this before, don't worry - you can adapt the instructions below to authorize
+your computer, but I've forgotten how exactly. TODO: dig this information out
+again from the depths of the internet, and add it.</p>
+<div class="section" id="prepare">
+<h3>Prepare</h3>
+<ol class="arabic simple" start="0">
+<li>On your computer, install <a class="reference external" href="../../android-overview/">adb and fastboot</a>,
+<tt class="docutils literal">sqlite3</tt> and <tt class="docutils literal">abootimg</tt>.</li>
+<li>On your phone, install <a class="reference external" href="../../setup-enc-cm/">TWRP</a>.</li>
+</ol>
+<p>TODO: link to specific sections rather than entire page.</p>
+</div>
+<div class="section" id="enable-after-decrypt">
+<h3>Enable after decrypt</h3>
+<p>This enables ADB after you decrypt your data partition.</p>
+<p>Boot into TWRP recovery, then from your computer:</p>
+<pre class="literal-block">
+$ adb shell
+ # twrp decrypt $YOUR_PASSWORD
+ # mount /system
+ # echo "persist.service.adb.enable=1" &gt;&gt; /system/build.prop
+ # echo "persist.service.debuggable=1" &gt;&gt; /system/build.prop
+ # echo "persist.sys.usb.config=mtp,adb" &gt;&gt; /system/build.prop
+ # exit
+$ echo -n 'mtp,adb' &gt; /data/property/persist.sys.usb.config
+$ adb pull "/data/data/com.android.providers.settings/databases/settings.db"
+$ sqlite3 settings.db 'update "global" set value=1 where name == "adb_enabled";'
+$ sqlite3 settings.db 'update "global" set value=1 where name == "development_settings_enabled";'
+$ adb push settings.db "/data/data/com.android.providers.settings/databases/settings.db"
+$ adb shell chown system: "/data/data/com.android.providers.settings/databases/settings.db"
+$ adb shell chmod 660 "/data/data/com.android.providers.settings/databases/settings.db"
+</pre>
+<p>See also <a class="reference external" href="https://android.stackexchange.com/questions/112040/">https://android.stackexchange.com/questions/112040/</a> which gives
+details for other android versions.</p>
+</div>
+<div class="section" id="enable-before-decrypt">
+<h3>Enable before decrypt</h3>
+<p>This enables ADB while Android is still booting up, <em>before</em> you decrypt your
+data partition.</p>
+<p>Boot into TWRP recovery, then from your computer:</p>
+<pre class="literal-block">
+$ adb shell twrp decrypt
+$ adb shell twrp backup B
+$ adb pull /sdcard/TWRP/BACKUPS/*/*/boot.emmc.win boot.img
+$ mkdir boot &amp;&amp; cd boot
+boot$ abootimg -x ../boot.img
+boot$ mkdir initrd &amp;&amp; cd initrd
+boot/initrd$ cat ../initrd.img | gunzip | cpio -vid
+boot/initrd$ sed -e 's/\(ro.*\.secure\)=1/\1=0/g' -i default.prop
+boot/initrd$ find . | cpio --create --format='newc' | gzip &gt; ../initrd-adb.img
+boot/initrd$ cd ..
+boot$ abootimg --create boot-adb.img -f bootimg.cfg -k zImage -r initrd-adb.img
+boot$ adb reboot bootloader
+boot$ fastboot boot boot-adb.img
+</pre>
+<p>Or to install this permanently so you don't need to keep running the last
+<tt class="docutils literal">fastboot boot</tt> command:</p>
+<pre class="literal-block">
+boot$ fastboot flash boot boot-adb.img
+</pre>
+<p>Note that any attacker with physical access to the phone can do the equivalent
+of above - even though <tt class="docutils literal">twrp backup</tt> command requires a decrypted <tt class="docutils literal">/data</tt>
+to dump the backup into, an attacker could execute the same functionality and
+dump it to an unencrypted location.</p>
+<p>This is an inherent danger of rooting your device. But the proper solution to
+defend against this, is to develop better security architectures that place
+authority (to execute bootstrap code) in the user's hands, instead of in the
+hands of a third party then claim it's "for security" (as "locked" phones do).</p>
+</div>
+</div>
+</div>
+    </div>
+    
+
+</article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2016         <a href="mailto:infinity0@pwned.gg">Ximin Luo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<base href="https://infinity0.github.io/droid-hacks/sw/owndata/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Self-hosting your personal data | Android FOSS+H hacks</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://infinity0.github.io/droid-hacks/sw/owndata/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Ximin Luo">
+<meta property="og:site_name" content="Android FOSS+H hacks">
+<meta property="og:title" content="Self-hosting your personal data">
+<meta property="og:url" content="https://infinity0.github.io/droid-hacks/sw/owndata/">
+<meta property="og:description" content="Move your data onto infrastructure that you control, then access and work with
+it from your phone later.
+
+Contacts and Calendar
+For now, we discuss Apple CalendarServer with DAVDroid. There are other
+">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-01-21T00:00:00Z">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://infinity0.github.io/droid-hacks/">
+
+                <span id="blog-title">Android FOSS+H hacks</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.rst" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="storypage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Self-hosting your personal data</a></h1>
+
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>Move your data onto infrastructure that you control, then access and work with
+it from your phone later.</p>
+<div class="section" id="contacts-and-calendar">
+<h2>Contacts and Calendar</h2>
+<p>For now, we discuss Apple CalendarServer with DAVDroid. There are other
+solutions that are similarly good, which we may cover in the future or accept
+contributions to include.</p>
+<p>You need to do the following steps:</p>
+<ul class="simple">
+<li>On your server, configure <a class="reference external" href=".#configure-calendarserver">CalendarServer</a> and a
+<a class="reference external" href=".#configure-tor-stealth-service">Tor stealth service</a>.</li>
+<li>
+<a class="reference external" href=".#sanitise-and-import-your-old-data">Sanitise and import your data</a>.</li>
+<li>On each client device, configure <a class="reference external" href=".#tor-on-a-client">tor</a> and <a class="reference external" href=".#configure-a-client-device">DAVDroid</a>.</li>
+</ul>
+<p>Along the way, you'll also configure some other desktop clients to access your
+server. This is useful for heavy editing tasks.</p>
+<div class="section" id="configure-calendarserver">
+<h3>Configure CalendarServer</h3>
+<p>For a Debian server, install:</p>
+<pre class="literal-block">
+# aptitude install calendarserver postgresql
+</pre>
+<p>TODO: version 5.2.2 is buggy in Debian, wait for 7.0...</p>
+<p>Read <tt class="docutils literal">/usr/share/doc/calendarserver/README.Debian.gz</tt> on how to configure
+postgresql for calendarserver. If you have calendarserver 7.0, this would be:</p>
+<pre class="literal-block">
+$ sudo -u postgres createuser caldavd --no-createdb --no-createrole --no-superuser
+$ sudo -u postgres createdb --owner=caldavd caldav
+$ sudo -u caldavd psql -f /usr/lib/python2.7/dist-packages/txdav/common/datastore/sql_schema/current.sql caldav
+</pre>
+<p>Configure calendarserver:</p>
+<pre class="literal-block">
+# SERVER_HOSTNAME="set-this-yourself.onion" # e.g. "caldavd.alice.stealth.onion"
+# cd /etc/caldavd &amp;&amp; patch -p0 &lt;&lt;EOF
+--- caldavd.plist
++++ caldavd.plist
+@@ -34,2 +34,2 @@
+     &lt;key&gt;ServerHostName&lt;/key&gt;
+-    &lt;string&gt;&lt;/string&gt; &lt;!-- The hostname clients use when connecting --&gt;
++    &lt;string&gt;$SERVER_HOSTNAME&lt;/string&gt; &lt;!-- The hostname clients use when connecting --&gt;
+@@ -63,3 +63,4 @@
+     &lt;key&gt;BindAddresses&lt;/key&gt;
+     &lt;array&gt;
++    &lt;string&gt;localhost&lt;/string&gt;
+     &lt;/array&gt;
+EOF
+</pre>
+<p>For our purposes, we set an explicit server hostname and bind only to local
+addresses. The former is necessary due to (a) our use of stealth onion services
+and (b) calendarserver not being as smart as it could be. <a class="footnote-reference" href=".#sn" id="id1">[1]</a> The hostname
+must end in <tt class="docutils literal">.onion</tt>; this is a restriction enforced for non-technical
+reasons by tor, which might be lifted in the future.</p>
+<table class="docutils footnote" frame="void" id="sn" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href=".#id1">[1]</a></td>
+<td>For a stealth service, each client has a <em>different</em> onion address
+(and authcookie) that it uses to access the service with. To make this work
+with calendarserver we use <tt class="docutils literal">MapAddress</tt>, which is like <tt class="docutils literal">/etc/hosts</tt> for
+tor, and have every client use the same hostname alias for the server.</td>
+</tr></tbody>
+</table>
+<p>Add crontab entry to backup your data:</p>
+<pre class="literal-block">
+# BACKUP_FILE="set-this-yourself.in-a-dir-where-caldavd-can-write"
+# { crontab -l; cat &lt;&lt;EOF; } | crontab -
+50  1  *  *  *  /usr/bin/sudo -u caldavd -g staff /usr/bin/pg_dump pg_dump -f "$BACKUP_FILE.$(date +%F)" caldav
+EOF
+</pre>
+<p>This <strong>not optional</strong> - if you don't do this, then none of the rest of the
+stuff mentioned on this page will work, and the world will explode. Even worse,
+Google SREs will start showing up at your house every day to laugh at you.</p>
+<p>Configure <tt class="docutils literal">/etc/caldavd/accounts.xml</tt>. You can generate uuids with
+<tt class="docutils literal">uuidgen</tt>.</p>
+<p>We're ready to start:</p>
+<pre class="literal-block">
+# sed -i -e 's,#\?\(start_calendarserver="\?yes"\?\),\1,' /etc/default/calendarserver
+# service calendarserver restart
+</pre>
+</div>
+<div class="section" id="configure-tor-stealth-service">
+<h3>Configure Tor stealth service</h3>
+<p>This allows your client devices to access your calendarserver, without exposing
+it to the rest of the internet, and without needing complex rules/mechanism to
+bypass any NAT/firewall policies.</p>
+<p>Add to <tt class="docutils literal">/etc/tor/torrc</tt>:</p>
+<pre class="literal-block">
+HiddenServiceDir /var/lib/tor/hidden_service/
+HiddenServicePort 8008 127.0.0.1:8008
+HiddenServiceAuthorizeClient stealth $client_names
+</pre>
+<p>Here, <tt class="docutils literal">$client_names</tt> is a comma-separated list of arbitrary names (i.e. you
+make them up yourself), one for each device that will access your server. You
+should make up at least two names - one for your phone, one for the desktop
+machine you will use to sanitise and import your data from.</p>
+<p>Restart tor, then find out your client addresses/authcookies:</p>
+<pre class="literal-block">
+# service tor restart
+# cat /var/lib/tor/hidden_service/hostname
+</pre>
+<p>Note this information for later - your client devices will need it.</p>
+</div>
+<div class="section" id="sanitise-and-import-your-old-data">
+<h3>Sanitise and import your old data</h3>
+<p>To begin with, export your data from the Google web interface. This is more
+accurate than doing it from client applications - since Google themselves know
+what data they hold about you, whereas application authors may have missed some
+things. Google offers several formats for export. Do them all, since certain
+types of data are present in some formats but not others. For example (during
+2014-11), Google loses event categories and contact groups when exporting VCF
+and ICS respectively. You should export to CSV (contacts) and XML (calendar) as
+well, and whatever else they've added in the meantime.</p>
+<p>Make sure you sanitise your data - merge duplicate contacts, etc. This is quite
+important; Google adds a lot of cruft and non-standard extensions to the data,
+which can waste your time if imported as-is into another application. Here are
+some sample scripts to help you:</p>
+<ul class="simple">
+<li><a class="reference external" href="../../listings/sanitise-google-contacts.py.html">Sanitise Google Contacts exported data</a></li>
+<li><a class="reference external" href="../../listings/sanitise-google-calendar.py.html">Sanitise Google Calendar exported data</a></li>
+</ul>
+<p>Note though, that I wrote these quickly for myself - they might not cover all
+the features of Google that <em>you</em> used, and Google may have changed the export
+format since I wrote them. You should manually review the output.</p>
+<p>When you are satisfied with the sanitised data, you can import it into your
+server using one of the following clients. (You should first <a class="reference external" href=".#tor-on-a-client">configure tor</a>).</p>
+<p>You can also use these clients to further clean up your data, now or in the
+future. I certainly find it much easier to perform mass edits from a desktop
+machine than from a phone.</p>
+<div class="section" id="import-contacts-data-using-evolution">
+<h4>Import contacts data using Evolution</h4>
+<ul class="simple">
+<li>File / New / Address Book</li>
+<li>Type = WebDAV</li>
+<li>URL = <tt class="docutils literal"><span class="pre">http://$SERVER_HOSTNAME:8008/addressbooks/users/$YOU/addressbook/</span></tt>
+</li>
+</ul>
+<p>To import your contacts: File / Import</p>
+</div>
+<div class="section" id="import-calendar-data-using-lightning-iceowl">
+<h4>Import calendar data using Lightning / Iceowl</h4>
+<ul class="simple">
+<li>File / New / Calendar &gt; On the Network</li>
+<li>Format = CalDAV</li>
+<li>Location = <tt class="docutils literal"><span class="pre">http://$SERVER_HOSTNAME:8008/calendars/users/$YOU/calendar/</span></tt>
+</li>
+<li>Check "Offline Support" (optional)</li>
+</ul>
+<p>To import your calendar: Events and Tasks / Import</p>
+</div>
+</div>
+<div class="section" id="configure-a-client-device">
+<h3>Configure a client device</h3>
+<div class="section" id="tor-on-a-client">
+<h4>Tor on a client</h4>
+<p>Add to <tt class="docutils literal">/etc/tor/torrc</tt>:</p>
+<pre class="literal-block">
+MapAddress $SERVER_HOSTNAME $client_hs_address
+HidServAuth $client_hs_address $client_hs_authcookie
+</pre>
+<p>Here, <tt class="docutils literal">$client_hs_address</tt> is one of the addresses (you pick which one) that
+your Tor stealth service generated.</p>
+<p>This also works on Orbot - go into Settings and look for "Torrc Custom Config"
+near the bottom.</p>
+<p>If you want to use a client <em>on the same machine as the server</em>, the above
+instructions won't work. Instead, you should add this to <tt class="docutils literal">/etc/hosts</tt>:</p>
+<pre class="literal-block">
+127.0.0.1 $SERVER_HOSTNAME
+</pre>
+<p>Then, when configuring your client programs, set a proxy exception for
+<tt class="docutils literal">$SERVER_HOSTNAME</tt>, so that it bypasses Tor. Of course, this only works if
+your client supports proxy exceptions, which Mozilla applications do. (If you
+can't use such a client, then I don't know of a good simple solution here.)</p>
+<p>TODO: why won't this work? perhaps a tor bug? try it again...</p>
+</div>
+<div class="section" id="id2">
+<h4>DAVDroid</h4>
+<p>DAVDroid may be installed from F-Droid. It is not itself a client; rather it is
+an accounts provider and data synchronizer. Configure your account:</p>
+<ul class="simple">
+<li>Settings &gt; Accounts &gt; DAVDroid &gt; Login with URL and user name</li>
+<li>Base URL = <tt class="docutils literal"><span class="pre">http://$SERVER_HOSTNAME:8008/principals</span></tt>
+</li>
+<li>Uncheck "Preemptive authentication"</li>
+</ul>
+<p>Then, other client programs may access and act on the data in these accounts -
+for example, the stock Android Contacts app and the stock Android Calendar app
+(<em>not</em> Google Calendar).</p>
+<p>If account sync fails, check that your Tor connection is stable by downloading
+some things. Failing that, you can try to debug the issue via <tt class="docutils literal">adb logcat</tt>.</p>
+<p>Random tip: the stock Contacts app does not support editing the groups of a
+contact, but it can read and display this data if the server has it. You may
+use Evolution (mentioned above, used to import old contacts data) to edit that.</p>
+</div>
+</div>
+</div>
+</div>
+    </div>
+    
+
+</article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2016         <a href="mailto:infinity0@pwned.gg">Ximin Luo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

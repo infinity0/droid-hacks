@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<base href="https://infinity0.github.io/droid-hacks/listings/pull-apk.sh.html">
+<meta name="description" content="pull-apk.sh">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pull-apk.sh | Android FOSS+H hacks</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="https://infinity0.github.io/droid-hacks/listings/pull-apk.sh.html">
+<!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://infinity0.github.io/droid-hacks/">
+
+                <span id="blog-title">Android FOSS+H hacks</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../categories/">Tags</a>
+                </li>
+<li>
+<a href="../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="pull-apk.sh" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+
+<nav class="breadcrumbs"><ul class="breadcrumb">
+<li><a href=".">listings</a></li>
+                <li>pull-apk.sh</li>
+</ul></nav><table class="codetable"><tr>
+<td class="linenos"><div class="linenodiv"><pre><a href="#listingspull-apksh-1"> 1</a>
+<a href="#listingspull-apksh-2"> 2</a>
+<a href="#listingspull-apksh-3"> 3</a>
+<a href="#listingspull-apksh-4"> 4</a>
+<a href="#listingspull-apksh-5"> 5</a>
+<a href="#listingspull-apksh-6"> 6</a>
+<a href="#listingspull-apksh-7"> 7</a>
+<a href="#listingspull-apksh-8"> 8</a>
+<a href="#listingspull-apksh-9"> 9</a>
+<a href="#listingspull-apksh-10">10</a>
+<a href="#listingspull-apksh-11">11</a>
+<a href="#listingspull-apksh-12">12</a>
+<a href="#listingspull-apksh-13">13</a>
+<a href="#listingspull-apksh-14">14</a>
+<a href="#listingspull-apksh-15">15</a>
+<a href="#listingspull-apksh-16">16</a>
+<a href="#listingspull-apksh-17">17</a>
+<a href="#listingspull-apksh-18">18</a>
+<a href="#listingspull-apksh-19">19</a>
+<a href="#listingspull-apksh-20">20</a>
+<a href="#listingspull-apksh-21">21</a>
+<a href="#listingspull-apksh-22">22</a>
+<a href="#listingspull-apksh-23">23</a>
+<a href="#listingspull-apksh-24">24</a>
+<a href="#listingspull-apksh-25">25</a>
+<a href="#listingspull-apksh-26">26</a>
+<a href="#listingspull-apksh-27">27</a>
+<a href="#listingspull-apksh-28">28</a>
+<a href="#listingspull-apksh-29">29</a></pre></div></td>
+<td class="code"><pre class="code literal-block"><a name="listingspull-apksh-1"></a><span class="c">#!/bin/sh</span>
+<a name="listingspull-apksh-2"></a><span class="c"># Pull APKs of installed applications from an Android device.</span>
+<a name="listingspull-apksh-3"></a><span class="c">#</span>
+<a name="listingspull-apksh-4"></a><span class="c"># Reads package names on STDIN, then pulls these using adb(1).</span>
+<a name="listingspull-apksh-5"></a><span class="c"># You can see the package name of an app by going to Settings &gt; Apps</span>
+<a name="listingspull-apksh-6"></a><span class="c">#</span>
+<a name="listingspull-apksh-7"></a><span class="c"># $ ./pull-apk.sh &lt;&lt;EOF</span>
+<a name="listingspull-apksh-8"></a><span class="c"># com.android.vending</span>
+<a name="listingspull-apksh-9"></a><span class="c"># com.google.android.apps.maps</span>
+<a name="listingspull-apksh-10"></a><span class="c"># com.google.android.gms</span>
+<a name="listingspull-apksh-11"></a><span class="c"># com.google.android.youtube</span>
+<a name="listingspull-apksh-12"></a><span class="c"># de.srlabs.snoopsnitch</span>
+<a name="listingspull-apksh-13"></a><span class="c"># edu.cmu.cylab.starslinger</span>
+<a name="listingspull-apksh-14"></a><span class="c"># info.guardianproject.otr.app.im</span>
+<a name="listingspull-apksh-15"></a><span class="c"># org.thoughtcrime.redphone</span>
+<a name="listingspull-apksh-16"></a><span class="c"># org.thoughtcrime.securesms</span>
+<a name="listingspull-apksh-17"></a><span class="c"># EOF</span>
+<a name="listingspull-apksh-18"></a><span class="c">#</span>
+<a name="listingspull-apksh-19"></a><span class="c"># You can then install these on another device with:</span>
+<a name="listingspull-apksh-20"></a><span class="c">#</span>
+<a name="listingspull-apksh-21"></a><span class="c"># $ adb install $local_apk_file # install new</span>
+<a name="listingspull-apksh-22"></a><span class="c"># $ adb install -r $local_apk_file # upgrade existing</span>
+<a name="listingspull-apksh-23"></a><span class="c">#</span>
+<a name="listingspull-apksh-24"></a><span class="k">while</span> <span class="nb">read </span>x<span class="p">;</span> <span class="k">do</span>
+<a name="listingspull-apksh-25"></a>	<span class="nv">path</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>adb shell pm path <span class="s2">"</span><span class="nv">$x</span><span class="s2">"</span> <span class="p">|</span> sed -e <span class="s1">'s/\r//g'</span><span class="k">)</span><span class="s2">"</span>
+<a name="listingspull-apksh-26"></a>	<span class="nv">path</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">path</span><span class="p">#package:</span><span class="si">}</span><span class="s2">"</span>
+<a name="listingspull-apksh-27"></a>	<span class="nb">echo</span> &gt;<span class="p">&amp;</span><span class="m">2</span> <span class="s2">"pull </span><span class="nv">$path</span><span class="s2">"</span>
+<a name="listingspull-apksh-28"></a>	adb pull <span class="s2">"</span><span class="nv">$path</span><span class="s2">"</span>
+<a name="listingspull-apksh-29"></a><span class="k">done</span>
+</pre></td>
+</tr></table>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2016         <a href="mailto:infinity0@pwned.gg">Ximin Luo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
