@@ -134,8 +134,8 @@ important; Google adds a lot of cruft and non-standard extensions to the data,
 which can waste your time if imported as-is into another application. Here are
 some sample scripts to help you:
 
-* `Sanitise Google Contacts exported data <../../listings/sanitise-google-contacts.py.html>`_
-* `Sanitise Google Calendar exported data <../../listings/sanitise-google-calendar.py.html>`_
+* `Sanitise Google Contacts exported data <link://listing/sanitise-google-contacts.py>`_
+* `Sanitise Google Calendar exported data <link://listing/sanitise-google-calendar.py>`_
 
 Note though, that I wrote these quickly for myself - they might not cover all
 the features of Google that *you* used, and Google may have changed the export

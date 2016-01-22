@@ -84,7 +84,7 @@ Non-free, or uses non-free or centralised services:
 * Google Translate - ``com.google.android.apps.translate``
 
 Ask a friend to download these from Google Play, then use `pull-apk.sh
-<../../listings/pull-apk.sh.html>`_ to grab the APKs from their device, then
+<link://listing/pull-apk.sh>`_ to grab the APKs from their device, then
 install them on your device.
 
 Disable stock apps
