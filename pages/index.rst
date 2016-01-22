@@ -25,7 +25,7 @@ Software
 --------
 
 * :doc:`sw/owndata`
-* :doc:`sw/location` (TODO)
+* :doc:`sw/location`
 
 Miscellaneous
 -------------
