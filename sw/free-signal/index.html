@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<base href="https://infinity0.github.io/droid-hacks/sw/free-signal/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Libre secure messaging with no-Google Signal | Android FOSS+H hacks</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://infinity0.github.io/droid-hacks/sw/free-signal/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Ximin Luo">
+<meta property="og:site_name" content="Android FOSS+H hacks">
+<meta property="og:title" content="Libre secure messaging with no-Google Signal">
+<meta property="og:url" content="https://infinity0.github.io/droid-hacks/sw/free-signal/">
+<meta property="og:description" content="Signal is a free asynchronous messaging app with some very strong security
+properties. It is far from perfect, but at the time of writing is probably the
+best such app available for Android. Unfortuna">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-02-06T00:00:00Z">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://infinity0.github.io/droid-hacks/">
+
+                <span id="blog-title">Android FOSS+H hacks</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../listings/">Code</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.rst" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="storypage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Libre secure messaging with no-Google Signal</a></h1>
+
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>Signal is a free asynchronous messaging app with some very strong security
+properties. It is far from perfect, but at the time of writing is probably the
+best such app available for Android. Unfortunately, official builds depend on
+Google Play Services (GMS) because it requires Google Cloud Messaging (GCM) as
+a core part of the protocol. This page discusses how to have Signal <em>without</em>
+GMS on your phone.</p>
+<div class="section" id="you-have-an-old-trusted-phone">
+<h2>You have an old trusted phone</h2>
+<p>Use an old phone with GMS to do the Signal registration process on, using your
+current SIM card. When you're done, you can move your SIM card back to your new
+phone, then <a class="reference external" href=".#migrate-signal-to-a-new-phone">migrate your keys over</a>.</p>
+<p>On the new phone, Signal will occasionally complain about the lack of GMS but
+<strong>it runs fine</strong> - as opposed to auto-exiting if you haven't registered and
+have no GMS to do that with. However, you won't have push notifications, so you
+will need to periodically check it manually - just like your email. :)</p>
+</div>
+<div class="section" id="you-like-to-try-new-things">
+<h2>You like to try new things</h2>
+<p>Add <a class="reference external" href="https://eutopia.cz/experimental/fdroid/repo?fingerprint=A0E4D1D912D8B81809AB18F5B7CF562CD1A10533ED4F7B25E595ABC8D862AD87">Eutopia.cz F-Droid Experimental Repository</a> as an F-Droid repo. (If
+you're reading this on your phone, you can copy the link and add it into
+F-Droid directly.)</p>
+<p>Refresh your repositories, then install <strong>LibreSignal (Websocket)</strong>. This will
+replace any existing Signal app, but keep your keys and data. You will likely
+need to perform another registration, but this one doesn't require GMS.</p>
+<p>Push notifications do work here. This is because the Signal servers do support
+the underlying push technology (WebSocket) for some non-Android clients, but
+they just haven't made this work in their Android client yet due to resource
+constraints and a negative attitude.</p>
+</div>
+<div class="section" id="migrate-signal-to-a-new-phone">
+<h2>Migrate Signal to a new phone</h2>
+<ol class="arabic">
+<li>
+<p class="first">On both phones, enable ADB. If you can't, then <a class="reference external" href="../../misc/force-adb/">try this</a>.</p>
+</li>
+<li>
+<p class="first">On your new phone, install Signal (or <a class="reference external" href=".#new-way">LibreSignal</a>), start it once, then go
+to Settings / Apps / Signal then press "Force Stop".</p>
+</li>
+<li>
+<p class="first">Connect your old phone to your computer, then on the latter:</p>
+<pre class="literal-block">
+$ adb root
+$ adb shell tar -C /data/user/0 -czf /data/user/0/signal.tar.gz org.thoughtcrime.securesms
+$ adb pull /data/user/0/signal.tar.gz
+$ adb shell rm /data/user/0/signal.tar.gz
+</pre>
+</li>
+<li>
+<p class="first">Disconnect your old phone, and <strong>put it in Airplane Mode</strong>.</p>
+</li>
+<li>
+<p class="first">Connect your new phone to your computer, then on the latter:</p>
+<pre class="literal-block">
+$ adb root
+$ adb push signal.tar.gz /data/user/0/  # the slash is important
+$ adb shell
+  # cd /data/user/0
+  # mv org.thoughtcrime.securesms _old_signal
+  # tar -xzf signal.tar.gz
+  # chmod 771 org.thoughtcrime.securesms
+  # chown -R "$(stat -c %u:%g _old_signal)" org.thoughtcrime.securesms
+  # chcon -R "$(ls -Zd _old_signal | cut '-d ' -f1)" org.thoughtcrime.securesms
+  # chmod 751 org.thoughtcrime.securesms
+</pre>
+</li>
+<li>
+<p class="first">Start Signal on your new phone, and check that everything still works. If it
+does, you can run:</p>
+<pre class="literal-block">
+$ adb shell rm -rf /data/user/0/_old_signal
+$ adb shell rm /data/user/0/signal.tar.gz
+</pre>
+<p>Or you can leave this until later, as a backup.</p>
+</li>
+<li>
+<p class="first">Disconnect your new phone. Uninstall Signal from your old phone <strong>before</strong>
+disabling Airplane Mode. If you don't do this, <em>both</em> of your installations
+will start to break as the cryptographic ratchet gets forked.</p>
+</li>
+</ol>
+</div>
+</div>
+    </div>
+    
+
+</article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2016         <a href="mailto:infinity0@pwned.gg">Ximin Luo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

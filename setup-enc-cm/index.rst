@@ -48,16 +48,19 @@ Comms
 * Orbot + Orwall
 * Orfox
 * SMSSecure
+* LibreSignal (WebSocket) [EXPERIMENTAL], via 3rd-party `Eutopia.cz F-Droid Experimental Repository`_
 
 Data
 
-* DAVDroid, see :doc:`sw/owndata`
+* DAVDroid + Tasks, see :doc:`sw/owndata`
 
 Location
 
-* µg UnifiedNlp + LocalGSMNlpBackend, :doc:`sw/location`
+* µg UnifiedNlp + LocalGSMNlpBackend, see :doc:`sw/location`
 * OsmAnd~
 * Transportr
+
+.. _Eutopia.cz F-Droid Experimental Repository: https://eutopia.cz/experimental/fdroid/repo?fingerprint=A0E4D1D912D8B81809AB18F5B7CF562CD1A10533ED4F7B25E595ABC8D862AD87
 
 Suggested apps
 ==============
@@ -66,19 +69,11 @@ FOSS and available from F-Droid:
 
 * aLogcat ROOT
 * AndIodine
+* ApkTrack
 * Open Camera
 * Plumble
 
 Non-free, or uses non-free or centralised services:
-
-* Signal - ``org.thoughtcrime.securesms``
-
-  * Despite the package name, it does not (any more) support "secure SMS", it
-    is "secure XOR SMS". Use SMSSecure for "secure AND SMS". You should then
-    use CM Privacy Guard to block this app from accidentally receiving SMS.
-  * It **does** work without Google Play Services, it just won't have push
-    notifications, so you will need to periodically check it manually - like
-    checking your email.
 
 * Google Keyboard - ``com.google.android.inputmethod.latin``
 * Google Translate - ``com.google.android.apps.translate``

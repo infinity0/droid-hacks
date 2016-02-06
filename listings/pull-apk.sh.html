@@ -99,34 +99,34 @@
 <a href="#listingspull-apksh-27">27</a>
 <a href="#listingspull-apksh-28">28</a>
 <a href="#listingspull-apksh-29">29</a></pre></div></td>
-<td class="code"><pre class="code literal-block"><a name="listingspull-apksh-1"></a><span class="c">#!/bin/sh</span>
-<a name="listingspull-apksh-2"></a><span class="c"># Pull APKs of installed applications from an Android device.</span>
-<a name="listingspull-apksh-3"></a><span class="c">#</span>
-<a name="listingspull-apksh-4"></a><span class="c"># Reads package names on STDIN, then pulls these using adb(1).</span>
-<a name="listingspull-apksh-5"></a><span class="c"># You can see the package name of an app by going to Settings &gt; Apps</span>
-<a name="listingspull-apksh-6"></a><span class="c">#</span>
-<a name="listingspull-apksh-7"></a><span class="c"># $ ./pull-apk.sh &lt;&lt;EOF</span>
-<a name="listingspull-apksh-8"></a><span class="c"># com.android.vending</span>
-<a name="listingspull-apksh-9"></a><span class="c"># com.google.android.apps.maps</span>
-<a name="listingspull-apksh-10"></a><span class="c"># com.google.android.gms</span>
-<a name="listingspull-apksh-11"></a><span class="c"># com.google.android.youtube</span>
-<a name="listingspull-apksh-12"></a><span class="c"># de.srlabs.snoopsnitch</span>
-<a name="listingspull-apksh-13"></a><span class="c"># edu.cmu.cylab.starslinger</span>
-<a name="listingspull-apksh-14"></a><span class="c"># info.guardianproject.otr.app.im</span>
-<a name="listingspull-apksh-15"></a><span class="c"># org.thoughtcrime.redphone</span>
-<a name="listingspull-apksh-16"></a><span class="c"># org.thoughtcrime.securesms</span>
-<a name="listingspull-apksh-17"></a><span class="c"># EOF</span>
-<a name="listingspull-apksh-18"></a><span class="c">#</span>
-<a name="listingspull-apksh-19"></a><span class="c"># You can then install these on another device with:</span>
-<a name="listingspull-apksh-20"></a><span class="c">#</span>
-<a name="listingspull-apksh-21"></a><span class="c"># $ adb install $local_apk_file # install new</span>
-<a name="listingspull-apksh-22"></a><span class="c"># $ adb install -r $local_apk_file # upgrade existing</span>
-<a name="listingspull-apksh-23"></a><span class="c">#</span>
-<a name="listingspull-apksh-24"></a><span class="k">while</span> <span class="nb">read </span>x<span class="p">;</span> <span class="k">do</span>
-<a name="listingspull-apksh-25"></a>	<span class="nv">path</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>adb shell pm path <span class="s2">"</span><span class="nv">$x</span><span class="s2">"</span> <span class="p">|</span> sed -e <span class="s1">'s/\r//g'</span><span class="k">)</span><span class="s2">"</span>
+<td class="code"><pre class="code literal-block"><a name="listingspull-apksh-1"></a><span class="ch">#!/bin/sh</span>
+<a name="listingspull-apksh-2"></a><span class="c1"># Pull APKs of installed applications from an Android device.</span>
+<a name="listingspull-apksh-3"></a><span class="c1">#</span>
+<a name="listingspull-apksh-4"></a><span class="c1"># Reads package names on STDIN, then pulls these using adb(1).</span>
+<a name="listingspull-apksh-5"></a><span class="c1"># You can see the package name of an app by going to Settings &gt; Apps</span>
+<a name="listingspull-apksh-6"></a><span class="c1">#</span>
+<a name="listingspull-apksh-7"></a><span class="c1"># $ ./pull-apk.sh &lt;&lt;EOF</span>
+<a name="listingspull-apksh-8"></a><span class="c1"># com.android.vending</span>
+<a name="listingspull-apksh-9"></a><span class="c1"># com.google.android.apps.maps</span>
+<a name="listingspull-apksh-10"></a><span class="c1"># com.google.android.gms</span>
+<a name="listingspull-apksh-11"></a><span class="c1"># com.google.android.youtube</span>
+<a name="listingspull-apksh-12"></a><span class="c1"># de.srlabs.snoopsnitch</span>
+<a name="listingspull-apksh-13"></a><span class="c1"># edu.cmu.cylab.starslinger</span>
+<a name="listingspull-apksh-14"></a><span class="c1"># info.guardianproject.otr.app.im</span>
+<a name="listingspull-apksh-15"></a><span class="c1"># org.thoughtcrime.redphone</span>
+<a name="listingspull-apksh-16"></a><span class="c1"># org.thoughtcrime.securesms</span>
+<a name="listingspull-apksh-17"></a><span class="c1"># EOF</span>
+<a name="listingspull-apksh-18"></a><span class="c1">#</span>
+<a name="listingspull-apksh-19"></a><span class="c1"># You can then install these on another device with:</span>
+<a name="listingspull-apksh-20"></a><span class="c1">#</span>
+<a name="listingspull-apksh-21"></a><span class="c1"># $ adb install $local_apk_file # install new</span>
+<a name="listingspull-apksh-22"></a><span class="c1"># $ adb install -r $local_apk_file # upgrade existing</span>
+<a name="listingspull-apksh-23"></a><span class="c1">#</span>
+<a name="listingspull-apksh-24"></a><span class="k">while</span> <span class="nb">read</span> x<span class="p">;</span> <span class="k">do</span>
+<a name="listingspull-apksh-25"></a>	<span class="nv">path</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>adb shell pm path <span class="s2">"</span>$<span class="s2">x"</span> <span class="p">|</span> sed -e <span class="s1">'s/\r//g'</span><span class="k">)</span><span class="s2">"</span>
 <a name="listingspull-apksh-26"></a>	<span class="nv">path</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">path</span><span class="p">#package:</span><span class="si">}</span><span class="s2">"</span>
-<a name="listingspull-apksh-27"></a>	<span class="nb">echo</span> &gt;<span class="p">&amp;</span><span class="m">2</span> <span class="s2">"pull </span><span class="nv">$path</span><span class="s2">"</span>
-<a name="listingspull-apksh-28"></a>	adb pull <span class="s2">"</span><span class="nv">$path</span><span class="s2">"</span>
+<a name="listingspull-apksh-27"></a>	<span class="nb">echo</span> &gt;<span class="p">&amp;</span><span class="m">2</span> <span class="s2">"pull </span>$<span class="s2">path"</span>
+<a name="listingspull-apksh-28"></a>	adb pull <span class="s2">"</span>$<span class="s2">path"</span>
 <a name="listingspull-apksh-29"></a><span class="k">done</span>
 </pre></td>
 </tr></table>

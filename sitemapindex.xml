@@ -6,11 +6,15 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
+  <loc>https://infinity0.github.io/droid-hacks/galleries/rss.xml</loc>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://infinity0.github.io/droid-hacks/rss.xml</loc>
-  <lastmod>2016-01-22T23:19:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://infinity0.github.io/droid-hacks/sitemap.xml</loc>
-  <lastmod>2016-01-22T23:28:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </sitemap>
 </sitemapindex>

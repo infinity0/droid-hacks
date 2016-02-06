@@ -7,62 +7,70 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://infinity0.github.io/droid-hacks/</loc>
-  <lastmod>2016-01-22T23:08:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://infinity0.github.io/droid-hacks/android-overview/</loc>
-  <lastmod>2016-01-22T23:08:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://infinity0.github.io/droid-hacks/archive.html</loc>
-  <lastmod>2016-01-22T23:28:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://infinity0.github.io/droid-hacks/blog/</loc>
-  <lastmod>2016-01-22T22:24:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://infinity0.github.io/droid-hacks/categories/</loc>
-  <lastmod>2016-01-22T22:24:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://infinity0.github.io/droid-hacks/galleries/</loc>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://infinity0.github.io/droid-hacks/hw/nospy/</loc>
-  <lastmod>2016-01-22T22:24:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://infinity0.github.io/droid-hacks/listings/</loc>
-  <lastmod>2016-01-22T22:24:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://infinity0.github.io/droid-hacks/listings/pull-apk.sh.html</loc>
-  <lastmod>2016-01-22T23:28:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://infinity0.github.io/droid-hacks/listings/sanitise-google-calendar.py.html</loc>
-  <lastmod>2016-01-22T23:28:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://infinity0.github.io/droid-hacks/listings/sanitise-google-contacts.py.html</loc>
-  <lastmod>2016-01-22T23:28:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://infinity0.github.io/droid-hacks/misc/force-adb/</loc>
-  <lastmod>2016-01-22T22:24:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://infinity0.github.io/droid-hacks/misc/screencast/</loc>
-  <lastmod>2016-01-22T22:24:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://infinity0.github.io/droid-hacks/setup-enc-cm/</loc>
-  <lastmod>2016-01-22T23:08:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://infinity0.github.io/droid-hacks/sw/free-signal/</loc>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://infinity0.github.io/droid-hacks/sw/location/</loc>
-  <lastmod>2016-01-22T23:08:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://infinity0.github.io/droid-hacks/sw/owndata/</loc>
-  <lastmod>2016-01-22T23:08:00Z</lastmod>
+  <lastmod>2016-02-06T16:46:00Z</lastmod>
  </url>
 </urlset>
