@@ -27,6 +27,7 @@ Software
 * :doc:`sw/owndata`
 * :doc:`sw/location`
 * :doc:`sw/free-signal`
+* :doc:`sw/firewall`
 
 Miscellaneous
 -------------
