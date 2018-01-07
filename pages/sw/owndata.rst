@@ -185,8 +185,14 @@ your Tor stealth service generated.
 This also works on Orbot - go into Settings and look for "Torrc Custom Config"
 near the bottom.
 
-If you want to use a client *on the same machine as the server*, the above
-instructions won't work. Instead, you should add this to ``/etc/hosts``::
+Bypass Tor on a localhost client
+````````````````````````````````
+
+If you want to use a client *on the same machine as the server*, the above will
+work, but it's better to avoid going through Tor completely. This is a bit more
+fiddly: you can't just point the client at localhost because CalendarServer
+only accepts requests to $SERVER_HOSTNAME and will get confused when getting
+requests to other hosts. Instead, add this to ``/etc/hosts``::
 
   127.0.0.1 $SERVER_HOSTNAME
 
@@ -195,7 +201,9 @@ Then, when configuring your client programs, set a proxy exception for
 your client supports proxy exceptions, which Mozilla applications do. (If you
 can't use such a client, then I don't know of a good simple solution here.)
 
-TODO: why won't this work? perhaps a tor bug? try it again...
+For Mozilla programs, you also need to set network.dns.blockDotOnion to false
+(effectively only after a restart). If you're using Torbirdy, it resets the
+proxy exception on every restart, so you'd need to set it manually again.
 
 DAVDroid
 --------
