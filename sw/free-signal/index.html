@@ -2,10 +2,16 @@
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
 <head>
 <meta charset="utf-8">
-<base href="https://infinity0.github.io/droid-hacks/sw/free-signal/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Libre secure messaging with no-Google Signal | Android FOSS+H hacks</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/html4css1.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/colorbox.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
 <link rel="canonical" href="https://infinity0.github.io/droid-hacks/sw/free-signal/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Ximin Luo">
@@ -72,7 +78,7 @@ best such app available for Android. Unfortuna">
         <div class="row">
             
             
-<article class="storypage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Libre secure messaging with no-Google Signal</a></h1>
+<article class="post-text storypage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Libre secure messaging with no-Google Signal</a></h1>
 
         
 
@@ -88,7 +94,7 @@ GMS on your phone.</p>
 <h2>You have an old trusted phone</h2>
 <p>Use an old phone with GMS to do the Signal registration process on, using your
 current SIM card. When you're done, you can move your SIM card back to your new
-phone, then <a class="reference external" href=".#migrate-signal-to-a-new-phone">migrate your keys over</a>.</p>
+phone, then <a class="reference external" href="#migrate-signal-to-a-new-phone">migrate your keys over</a>.</p>
 <p>On the new phone, Signal will occasionally complain about the lack of GMS but
 <strong>it runs fine</strong> - as opposed to auto-exiting if you haven't registered and
 have no GMS to do that with. However, you won't have push notifications, so you
@@ -114,7 +120,7 @@ constraints and a negative attitude.</p>
 <p class="first">On both phones, enable ADB. If you can't, then <a class="reference external" href="../../misc/force-adb/">try this</a>.</p>
 </li>
 <li>
-<p class="first">On your new phone, install Signal (or <a class="reference external" href=".#new-way">LibreSignal</a>), start it once, then go
+<p class="first">On your new phone, install Signal (or <a class="reference external" href="#new-way">LibreSignal</a>), start it once, then go
 to Settings / Apps / Signal then press "Force Stop".</p>
 </li>
 <li>
@@ -136,12 +142,16 @@ $ adb root
 $ adb push signal.tar.gz /data/user/0/  # the slash is important
 $ adb shell
   # cd /data/user/0
-  # mv org.thoughtcrime.securesms _old_signal
+  # package=org.thoughtcrime.securesms
+  # mv "$package" _old_signal
   # tar -xzf signal.tar.gz
-  # chmod 771 org.thoughtcrime.securesms
-  # chown -R "$(stat -c %u:%g _old_signal)" org.thoughtcrime.securesms
-  # chcon -R "$(ls -Zd _old_signal | cut '-d ' -f1)" org.thoughtcrime.securesms
-  # chmod 751 org.thoughtcrime.securesms
+  # chmod 771 "$package"
+  # chown -R "$(stat -c %u:%g _old_signal                    )" "$package"
+  # chcon -R "$(ls -Zd        _old_signal     | cut '-d ' -f1)" "$package"
+  # ln -snf  "$(readlink      _old_signal/lib                )" "$package"/lib
+  # chown -h "$(stat -c %u:%g _old_signal/lib                )" "$package"/lib
+  # chcon -h "$(ls -Zd        _old_signal/lib | cut '-d ' -f1)" "$package"/lib
+  # chmod 751 "$package"
 </pre>
 </li>
 <li>
@@ -169,15 +179,15 @@ will start to break as the cryptographic ratchet gets forked.</p>
         <!--End of body content-->
 
         <footer id="footer">
-            Contents © 2016         <a href="mailto:infinity0@pwned.gg">Ximin Luo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2018         <a href="mailto:infinity0@pwned.gg">Ximin Luo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
         </footer>
 </div>
 </div>
 
 
-            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
-    moment.locale("");
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/moment-with-locales.min.js"></script><script src="../../assets/js/fancydates.js"></script><script src="../../assets/js/jquery.colorbox-min.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
     fancydates(0, "YYYY-MM-DD HH:mm");
     </script><!-- end fancy dates -->
 </body>

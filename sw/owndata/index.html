@@ -2,10 +2,16 @@
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
 <head>
 <meta charset="utf-8">
-<base href="https://infinity0.github.io/droid-hacks/sw/owndata/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Self-hosting your personal data | Android FOSS+H hacks</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/html4css1.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/colorbox.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
 <link rel="canonical" href="https://infinity0.github.io/droid-hacks/sw/owndata/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Ximin Luo">
@@ -75,7 +81,7 @@ For now, we discuss Apple CalendarServer with DAVDroid. There are other
         <div class="row">
             
             
-<article class="storypage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Self-hosting your personal data</a></h1>
+<article class="post-text storypage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Self-hosting your personal data</a></h1>
 
         
 
@@ -90,11 +96,11 @@ solutions that are similarly good, which we may cover in the future or accept
 contributions to include.</p>
 <p>You need to do the following steps:</p>
 <ul class="simple">
-<li>On your server, configure <a class="reference external" href=".#configure-calendarserver">CalendarServer</a> and a
-<a class="reference external" href=".#configure-tor-stealth-service">Tor stealth service</a>.</li>
+<li>On your server, configure <a class="reference external" href="#configure-calendarserver">CalendarServer</a> and a
+<a class="reference external" href="#configure-tor-stealth-service">Tor stealth service</a>.</li>
 <li>
-<a class="reference external" href=".#sanitise-and-import-your-old-data">Sanitise and import your data</a>.</li>
-<li>On each client device, configure <a class="reference external" href=".#tor-on-a-client">tor</a> and <a class="reference external" href=".#configure-a-client-device">DAVDroid</a>.</li>
+<a class="reference external" href="#sanitise-and-import-your-old-data">Sanitise and import your data</a>.</li>
+<li>On each client device, configure <a class="reference external" href="#tor-on-a-client">tor</a> and <a class="reference external" href="#configure-a-client-device">DAVDroid</a>.</li>
 </ul>
 <p>Along the way, you'll also configure some other desktop clients to access your
 server. This is useful for heavy editing tasks.</p>
@@ -131,7 +137,7 @@ EOF
 </pre>
 <p>For our purposes, we set an explicit server hostname and bind only to local
 addresses. The former is necessary due to (a) our use of stealth onion services
-and (b) calendarserver not being as smart as it could be. <a class="footnote-reference" href=".#sn" id="id1">[1]</a> The hostname
+and (b) calendarserver not being as smart as it could be. <a class="footnote-reference" href="#sn" id="id1">[1]</a> The hostname
 must end in <tt class="docutils literal">.onion</tt>; this is a restriction enforced for non-technical
 reasons by tor, which might be lifted in the future.</p>
 <table class="docutils footnote" frame="void" id="sn" rules="none">
@@ -140,7 +146,7 @@ reasons by tor, which might be lifted in the future.</p>
 <col>
 </colgroup>
 <tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href=".#id1">[1]</a></td>
+<td class="label"><a class="fn-backref" href="#id1">[1]</a></td>
 <td>For a stealth service, each client has a <em>different</em> onion address
 (and authcookie) that it uses to access the service with. To make this work
 with calendarserver we use <tt class="docutils literal">MapAddress</tt>, which is like <tt class="docutils literal">/etc/hosts</tt> for
@@ -209,7 +215,7 @@ some sample scripts to help you:</p>
 the features of Google that <em>you</em> used, and Google may have changed the export
 format since I wrote them. You should manually review the output.</p>
 <p>When you are satisfied with the sanitised data, you can import it into your
-server using one of the following clients. (You should first <a class="reference external" href=".#tor-on-a-client">configure tor</a>).</p>
+server using one of the following clients. (You should first <a class="reference external" href="#tor-on-a-client">configure tor</a>).</p>
 <p>You can also use these clients to further clean up your data, now or in the
 future. I certainly find it much easier to perform mass edits from a desktop
 machine than from a phone.</p>
@@ -248,8 +254,13 @@ HidServAuth $client_hs_address $client_hs_authcookie
 your Tor stealth service generated.</p>
 <p>This also works on Orbot - go into Settings and look for "Torrc Custom Config"
 near the bottom.</p>
-<p>If you want to use a client <em>on the same machine as the server</em>, the above
-instructions won't work. Instead, you should add this to <tt class="docutils literal">/etc/hosts</tt>:</p>
+<div class="section" id="bypass-tor-on-a-localhost-client">
+<h5>Bypass Tor on a localhost client</h5>
+<p>If you want to use a client <em>on the same machine as the server</em>, the above will
+work, but it's better to avoid going through Tor completely. This is a bit more
+fiddly: you can't just point the client at localhost because CalendarServer
+only accepts requests to $SERVER_HOSTNAME and will get confused when getting
+requests to other hosts. Instead, add this to <tt class="docutils literal">/etc/hosts</tt>:</p>
 <pre class="literal-block">
 127.0.0.1 $SERVER_HOSTNAME
 </pre>
@@ -257,7 +268,10 @@ instructions won't work. Instead, you should add this to <tt class="docutils lit
 <tt class="docutils literal">$SERVER_HOSTNAME</tt>, so that it bypasses Tor. Of course, this only works if
 your client supports proxy exceptions, which Mozilla applications do. (If you
 can't use such a client, then I don't know of a good simple solution here.)</p>
-<p>TODO: why won't this work? perhaps a tor bug? try it again...</p>
+<p>For Mozilla programs, you also need to set network.dns.blockDotOnion to false
+(effectively only after a restart). If you're using Torbirdy, it resets the
+proxy exception on every restart, so you'd need to set it manually again.</p>
+</div>
 </div>
 <div class="section" id="id2">
 <h4>DAVDroid</h4>
@@ -289,15 +303,15 @@ use Evolution (mentioned above, used to import old contacts data) to edit that.<
         <!--End of body content-->
 
         <footer id="footer">
-            Contents © 2016         <a href="mailto:infinity0@pwned.gg">Ximin Luo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2018         <a href="mailto:infinity0@pwned.gg">Ximin Luo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
         </footer>
 </div>
 </div>
 
 
-            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
-    moment.locale("");
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/moment-with-locales.min.js"></script><script src="../../assets/js/fancydates.js"></script><script src="../../assets/js/jquery.colorbox-min.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
     fancydates(0, "YYYY-MM-DD HH:mm");
     </script><!-- end fancy dates -->
 </body>

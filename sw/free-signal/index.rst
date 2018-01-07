@@ -70,12 +70,16 @@ Migrate Signal to a new phone
     $ adb push signal.tar.gz /data/user/0/  # the slash is important
     $ adb shell
       # cd /data/user/0
-      # mv org.thoughtcrime.securesms _old_signal
+      # package=org.thoughtcrime.securesms
+      # mv "$package" _old_signal
       # tar -xzf signal.tar.gz
-      # chmod 771 org.thoughtcrime.securesms
-      # chown -R "$(stat -c %u:%g _old_signal)" org.thoughtcrime.securesms
-      # chcon -R "$(ls -Zd _old_signal | cut '-d ' -f1)" org.thoughtcrime.securesms
-      # chmod 751 org.thoughtcrime.securesms
+      # chmod 771 "$package"
+      # chown -R "$(stat -c %u:%g _old_signal                    )" "$package"
+      # chcon -R "$(ls -Zd        _old_signal     | cut '-d ' -f1)" "$package"
+      # ln -snf  "$(readlink      _old_signal/lib                )" "$package"/lib
+      # chown -h "$(stat -c %u:%g _old_signal/lib                )" "$package"/lib
+      # chcon -h "$(ls -Zd        _old_signal/lib | cut '-d ' -f1)" "$package"/lib
+      # chmod 751 "$package"
 
 6. Start Signal on your new phone, and check that everything still works. If it
    does, you can run::

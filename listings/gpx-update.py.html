@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="gpx-update.py">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gpx-update.py | Android FOSS+H hacks</title>
+<link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/html4css1.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/nikola_rst.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/colorbox.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/theme.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="https://infinity0.github.io/droid-hacks/listings/gpx-update.py.html">
+<!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://infinity0.github.io/droid-hacks/">
+
+                <span id="blog-title">Android FOSS+H hacks</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../archive.html">Archive</a>
+                </li>
+<li>
+<a href=".">Code</a>
+                </li>
+<li>
+<a href="../categories/">Tags</a>
+                </li>
+<li>
+<a href="../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="gpx-update.py" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+
+<nav class="breadcrumbs"><ul class="breadcrumb">
+<li><a href=".">listings</a></li>
+                <li>gpx-update.py</li>
+</ul></nav><h1>gpx-update.py
+        <small><a href="gpx-update.py">(Source)</a></small>
+    </h1>
+    <table class="codetable"><tr>
+<td class="linenos"><div class="linenodiv"><pre><a href="#listingsgpx-updatepy-1">  1</a>
+<a href="#listingsgpx-updatepy-2">  2</a>
+<a href="#listingsgpx-updatepy-3">  3</a>
+<a href="#listingsgpx-updatepy-4">  4</a>
+<a href="#listingsgpx-updatepy-5">  5</a>
+<a href="#listingsgpx-updatepy-6">  6</a>
+<a href="#listingsgpx-updatepy-7">  7</a>
+<a href="#listingsgpx-updatepy-8">  8</a>
+<a href="#listingsgpx-updatepy-9">  9</a>
+<a href="#listingsgpx-updatepy-10"> 10</a>
+<a href="#listingsgpx-updatepy-11"> 11</a>
+<a href="#listingsgpx-updatepy-12"> 12</a>
+<a href="#listingsgpx-updatepy-13"> 13</a>
+<a href="#listingsgpx-updatepy-14"> 14</a>
+<a href="#listingsgpx-updatepy-15"> 15</a>
+<a href="#listingsgpx-updatepy-16"> 16</a>
+<a href="#listingsgpx-updatepy-17"> 17</a>
+<a href="#listingsgpx-updatepy-18"> 18</a>
+<a href="#listingsgpx-updatepy-19"> 19</a>
+<a href="#listingsgpx-updatepy-20"> 20</a>
+<a href="#listingsgpx-updatepy-21"> 21</a>
+<a href="#listingsgpx-updatepy-22"> 22</a>
+<a href="#listingsgpx-updatepy-23"> 23</a>
+<a href="#listingsgpx-updatepy-24"> 24</a>
+<a href="#listingsgpx-updatepy-25"> 25</a>
+<a href="#listingsgpx-updatepy-26"> 26</a>
+<a href="#listingsgpx-updatepy-27"> 27</a>
+<a href="#listingsgpx-updatepy-28"> 28</a>
+<a href="#listingsgpx-updatepy-29"> 29</a>
+<a href="#listingsgpx-updatepy-30"> 30</a>
+<a href="#listingsgpx-updatepy-31"> 31</a>
+<a href="#listingsgpx-updatepy-32"> 32</a>
+<a href="#listingsgpx-updatepy-33"> 33</a>
+<a href="#listingsgpx-updatepy-34"> 34</a>
+<a href="#listingsgpx-updatepy-35"> 35</a>
+<a href="#listingsgpx-updatepy-36"> 36</a>
+<a href="#listingsgpx-updatepy-37"> 37</a>
+<a href="#listingsgpx-updatepy-38"> 38</a>
+<a href="#listingsgpx-updatepy-39"> 39</a>
+<a href="#listingsgpx-updatepy-40"> 40</a>
+<a href="#listingsgpx-updatepy-41"> 41</a>
+<a href="#listingsgpx-updatepy-42"> 42</a>
+<a href="#listingsgpx-updatepy-43"> 43</a>
+<a href="#listingsgpx-updatepy-44"> 44</a>
+<a href="#listingsgpx-updatepy-45"> 45</a>
+<a href="#listingsgpx-updatepy-46"> 46</a>
+<a href="#listingsgpx-updatepy-47"> 47</a>
+<a href="#listingsgpx-updatepy-48"> 48</a>
+<a href="#listingsgpx-updatepy-49"> 49</a>
+<a href="#listingsgpx-updatepy-50"> 50</a>
+<a href="#listingsgpx-updatepy-51"> 51</a>
+<a href="#listingsgpx-updatepy-52"> 52</a>
+<a href="#listingsgpx-updatepy-53"> 53</a>
+<a href="#listingsgpx-updatepy-54"> 54</a>
+<a href="#listingsgpx-updatepy-55"> 55</a>
+<a href="#listingsgpx-updatepy-56"> 56</a>
+<a href="#listingsgpx-updatepy-57"> 57</a>
+<a href="#listingsgpx-updatepy-58"> 58</a>
+<a href="#listingsgpx-updatepy-59"> 59</a>
+<a href="#listingsgpx-updatepy-60"> 60</a>
+<a href="#listingsgpx-updatepy-61"> 61</a>
+<a href="#listingsgpx-updatepy-62"> 62</a>
+<a href="#listingsgpx-updatepy-63"> 63</a>
+<a href="#listingsgpx-updatepy-64"> 64</a>
+<a href="#listingsgpx-updatepy-65"> 65</a>
+<a href="#listingsgpx-updatepy-66"> 66</a>
+<a href="#listingsgpx-updatepy-67"> 67</a>
+<a href="#listingsgpx-updatepy-68"> 68</a>
+<a href="#listingsgpx-updatepy-69"> 69</a>
+<a href="#listingsgpx-updatepy-70"> 70</a>
+<a href="#listingsgpx-updatepy-71"> 71</a>
+<a href="#listingsgpx-updatepy-72"> 72</a>
+<a href="#listingsgpx-updatepy-73"> 73</a>
+<a href="#listingsgpx-updatepy-74"> 74</a>
+<a href="#listingsgpx-updatepy-75"> 75</a>
+<a href="#listingsgpx-updatepy-76"> 76</a>
+<a href="#listingsgpx-updatepy-77"> 77</a>
+<a href="#listingsgpx-updatepy-78"> 78</a>
+<a href="#listingsgpx-updatepy-79"> 79</a>
+<a href="#listingsgpx-updatepy-80"> 80</a>
+<a href="#listingsgpx-updatepy-81"> 81</a>
+<a href="#listingsgpx-updatepy-82"> 82</a>
+<a href="#listingsgpx-updatepy-83"> 83</a>
+<a href="#listingsgpx-updatepy-84"> 84</a>
+<a href="#listingsgpx-updatepy-85"> 85</a>
+<a href="#listingsgpx-updatepy-86"> 86</a>
+<a href="#listingsgpx-updatepy-87"> 87</a>
+<a href="#listingsgpx-updatepy-88"> 88</a>
+<a href="#listingsgpx-updatepy-89"> 89</a>
+<a href="#listingsgpx-updatepy-90"> 90</a>
+<a href="#listingsgpx-updatepy-91"> 91</a>
+<a href="#listingsgpx-updatepy-92"> 92</a>
+<a href="#listingsgpx-updatepy-93"> 93</a>
+<a href="#listingsgpx-updatepy-94"> 94</a>
+<a href="#listingsgpx-updatepy-95"> 95</a>
+<a href="#listingsgpx-updatepy-96"> 96</a>
+<a href="#listingsgpx-updatepy-97"> 97</a>
+<a href="#listingsgpx-updatepy-98"> 98</a>
+<a href="#listingsgpx-updatepy-99"> 99</a>
+<a href="#listingsgpx-updatepy-100">100</a>
+<a href="#listingsgpx-updatepy-101">101</a>
+<a href="#listingsgpx-updatepy-102">102</a>
+<a href="#listingsgpx-updatepy-103">103</a>
+<a href="#listingsgpx-updatepy-104">104</a>
+<a href="#listingsgpx-updatepy-105">105</a>
+<a href="#listingsgpx-updatepy-106">106</a>
+<a href="#listingsgpx-updatepy-107">107</a>
+<a href="#listingsgpx-updatepy-108">108</a>
+<a href="#listingsgpx-updatepy-109">109</a>
+<a href="#listingsgpx-updatepy-110">110</a>
+<a href="#listingsgpx-updatepy-111">111</a>
+<a href="#listingsgpx-updatepy-112">112</a>
+<a href="#listingsgpx-updatepy-113">113</a>
+<a href="#listingsgpx-updatepy-114">114</a>
+<a href="#listingsgpx-updatepy-115">115</a>
+<a href="#listingsgpx-updatepy-116">116</a>
+<a href="#listingsgpx-updatepy-117">117</a>
+<a href="#listingsgpx-updatepy-118">118</a>
+<a href="#listingsgpx-updatepy-119">119</a>
+<a href="#listingsgpx-updatepy-120">120</a>
+<a href="#listingsgpx-updatepy-121">121</a>
+<a href="#listingsgpx-updatepy-122">122</a>
+<a href="#listingsgpx-updatepy-123">123</a>
+<a href="#listingsgpx-updatepy-124">124</a>
+<a href="#listingsgpx-updatepy-125">125</a>
+<a href="#listingsgpx-updatepy-126">126</a>
+<a href="#listingsgpx-updatepy-127">127</a>
+<a href="#listingsgpx-updatepy-128">128</a>
+<a href="#listingsgpx-updatepy-129">129</a>
+<a href="#listingsgpx-updatepy-130">130</a>
+<a href="#listingsgpx-updatepy-131">131</a>
+<a href="#listingsgpx-updatepy-132">132</a>
+<a href="#listingsgpx-updatepy-133">133</a>
+<a href="#listingsgpx-updatepy-134">134</a>
+<a href="#listingsgpx-updatepy-135">135</a>
+<a href="#listingsgpx-updatepy-136">136</a></pre></div></td>
+<td class="code"><pre class="code literal-block"><a name="listingsgpx-updatepy-1"></a><span class="ch">#!/usr/bin/python</span>
+<a name="listingsgpx-updatepy-2"></a><span class="sd">"""</span>
+<a name="listingsgpx-updatepy-3"></a><span class="sd">Export KDE Marble KML bookmarks to OsmAnd GPX favourites.</span>
+<a name="listingsgpx-updatepy-4"></a><span class="sd">Requires: python-lxml, gpsbabel</span>
+<a name="listingsgpx-updatepy-5"></a>
+<a name="listingsgpx-updatepy-6"></a><span class="sd">Usage: $0 &lt;EXPORT_FOLDER&gt; ... &lt; bookmarks.kml &gt; favourites.gpx</span>
+<a name="listingsgpx-updatepy-7"></a><span class="sd">       $0 -i favourites.gpx</span>
+<a name="listingsgpx-updatepy-8"></a>
+<a name="listingsgpx-updatepy-9"></a><span class="sd">EXPORT_FOLDER are the bookmark folders (in Marble) to export. The argument can</span>
+<a name="listingsgpx-updatepy-10"></a><span class="sd">also be in the following extended syntax:</span>
+<a name="listingsgpx-updatepy-11"></a>
+<a name="listingsgpx-updatepy-12"></a><span class="sd">  EXPORT_FOLDER ::= (folder | gpx_file) "|" colour</span>
+<a name="listingsgpx-updatepy-13"></a>
+<a name="listingsgpx-updatepy-14"></a><span class="sd">gpx_file    is the path to an actual file to splice into the favourites as-is.</span>
+<a name="listingsgpx-updatepy-15"></a><span class="sd">colour      is what colour to display those places in, in OsmAnd.</span>
+<a name="listingsgpx-updatepy-16"></a>
+<a name="listingsgpx-updatepy-17"></a><span class="sd">Use the -i option to install the output file into Android.</span>
+<a name="listingsgpx-updatepy-18"></a>
+<a name="listingsgpx-updatepy-19"></a><span class="sd">TODO: write this up in the main droid-hacks doc. Roughly:</span>
+<a name="listingsgpx-updatepy-20"></a><span class="sd">- add this script to a crontab</span>
+<a name="listingsgpx-updatepy-21"></a><span class="sd">- expose $(dirname favourites.gpx) via a stealth hidden service</span>
+<a name="listingsgpx-updatepy-22"></a><span class="sd">- periodically download it to your phone</span>
+<a name="listingsgpx-updatepy-23"></a><span class="sd">- su -c 'ln -sf ../Downloads/favourites.gpx /data/media/0/osmand/'</span>
+<a name="listingsgpx-updatepy-24"></a>
+<a name="listingsgpx-updatepy-25"></a><span class="sd">"""</span>
+<a name="listingsgpx-updatepy-26"></a>
+<a name="listingsgpx-updatepy-27"></a><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<a name="listingsgpx-updatepy-28"></a>
+<a name="listingsgpx-updatepy-29"></a><span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
+<a name="listingsgpx-updatepy-30"></a>
+<a name="listingsgpx-updatepy-31"></a><span class="kn">import</span> <span class="nn">copy</span>
+<a name="listingsgpx-updatepy-32"></a><span class="kn">import</span> <span class="nn">os.path</span>
+<a name="listingsgpx-updatepy-33"></a><span class="kn">import</span> <span class="nn">subprocess</span>
+<a name="listingsgpx-updatepy-34"></a><span class="kn">import</span> <span class="nn">sys</span>
+<a name="listingsgpx-updatepy-35"></a>
+<a name="listingsgpx-updatepy-36"></a><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span>
+<a name="listingsgpx-updatepy-37"></a>
+<a name="listingsgpx-updatepy-38"></a><span class="n">NS</span> <span class="o">=</span> <span class="p">{</span>
+<a name="listingsgpx-updatepy-39"></a>    <span class="s2">"k"</span><span class="p">:</span><span class="s2">"http://www.opengis.net/kml/2.2"</span><span class="p">,</span>
+<a name="listingsgpx-updatepy-40"></a>    <span class="s2">"g"</span><span class="p">:</span><span class="s2">"http://www.topografix.com/GPX/1/0"</span><span class="p">,</span>
+<a name="listingsgpx-updatepy-41"></a><span class="p">}</span>
+<a name="listingsgpx-updatepy-42"></a>
+<a name="listingsgpx-updatepy-43"></a><span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<a name="listingsgpx-updatepy-44"></a>    <span class="n">kml_in</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-45"></a>    <span class="n">fav</span> <span class="o">=</span> <span class="bp">None</span>
+<a name="listingsgpx-updatepy-46"></a>    <span class="n">fav_time</span> <span class="o">=</span> <span class="bp">None</span>
+<a name="listingsgpx-updatepy-47"></a>    <span class="n">fav_bounds</span> <span class="o">=</span> <span class="bp">None</span>
+<a name="listingsgpx-updatepy-48"></a>
+<a name="listingsgpx-updatepy-49"></a>    <span class="k">for</span> <span class="n">export</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-50"></a>        <span class="n">parts</span> <span class="o">=</span> <span class="n">export</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"|"</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-51"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-52"></a>            <span class="n">folder</span><span class="p">,</span> <span class="n">colour</span> <span class="o">=</span> <span class="n">parts</span>
+<a name="listingsgpx-updatepy-53"></a>        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-54"></a>            <span class="n">folder</span><span class="p">,</span> <span class="n">colour</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">None</span>
+<a name="listingsgpx-updatepy-55"></a>        <span class="k">else</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-56"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">export</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-57"></a>
+<a name="listingsgpx-updatepy-58"></a>        <span class="k">if</span> <span class="n">folder</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".gpx"</span><span class="p">):</span>
+<a name="listingsgpx-updatepy-59"></a>            <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">(</span><span class="n">folder</span><span class="p">))</span>
+<a name="listingsgpx-updatepy-60"></a>            <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-61"></a>        <span class="k">else</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-62"></a>            <span class="n">p</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">"/usr/bin/gpsbabel"</span><span class="p">,</span> <span class="s2">"-i"</span><span class="p">,</span> <span class="s2">"kml"</span><span class="p">,</span> <span class="s2">"-o"</span><span class="p">,</span> <span class="s2">"gpx"</span><span class="p">,</span> <span class="s2">"-f"</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">,</span> <span class="s2">"-F"</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">],</span>
+<a name="listingsgpx-updatepy-63"></a>                <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+<a name="listingsgpx-updatepy-64"></a>                <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-65"></a>
+<a name="listingsgpx-updatepy-66"></a>            <span class="c1"># filter only this folder</span>
+<a name="listingsgpx-updatepy-67"></a>            <span class="n">r</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">kml_in</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-68"></a>            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"//k:Document/k:Folder"</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">NS</span><span class="p">):</span>
+<a name="listingsgpx-updatepy-69"></a>                <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">getchildren</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span> <span class="o">!=</span> <span class="n">folder</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-70"></a>                    <span class="n">r</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span><span class="o">.</span><span class="n">getchildren</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-71"></a>            <span class="n">r</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-72"></a>            <span class="n">p</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<a name="listingsgpx-updatepy-73"></a>            <span class="n">fp</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">stdout</span>
+<a name="listingsgpx-updatepy-74"></a>
+<a name="listingsgpx-updatepy-75"></a>        <span class="c1"># write the folder name into the GPX output of gpsbabel, otherwise it's lost</span>
+<a name="listingsgpx-updatepy-76"></a>        <span class="n">g</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-77"></a>        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"//g:wpt"</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">NS</span><span class="p">):</span>
+<a name="listingsgpx-updatepy-78"></a>            <span class="n">t</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">makeelement</span><span class="p">(</span><span class="s1">'type'</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-79"></a>            <span class="n">t</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">text</span>                                                     <span class="c1"># i'm OCD, maintain indentation</span>
+<a name="listingsgpx-updatepy-80"></a>            <span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">folder</span>
+<a name="listingsgpx-updatepy-81"></a>            <span class="n">e</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-82"></a>            <span class="n">i2</span><span class="p">,</span> <span class="n">i1</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">getchildren</span><span class="p">()[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+<a name="listingsgpx-updatepy-83"></a>            <span class="k">if</span> <span class="n">colour</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-84"></a>                <span class="n">x</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">makeelement</span><span class="p">(</span><span class="s2">"extensions"</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-85"></a>                <span class="n">c</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">makeelement</span><span class="p">(</span><span class="s2">"color"</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-86"></a>                <span class="n">c</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">colour</span>
+<a name="listingsgpx-updatepy-87"></a>                <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-88"></a>                <span class="n">e</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-89"></a>                <span class="n">x</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">i1</span><span class="o">.</span><span class="n">tail</span>                                                <span class="c1"># i'm OCD, maintain indentation</span>
+<a name="listingsgpx-updatepy-90"></a>                <span class="n">i1</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">i2</span><span class="o">.</span><span class="n">tail</span>
+<a name="listingsgpx-updatepy-91"></a>
+<a name="listingsgpx-updatepy-92"></a>        <span class="c1"># merge the output into "fav"</span>
+<a name="listingsgpx-updatepy-93"></a>        <span class="k">if</span> <span class="n">fav</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-94"></a>            <span class="n">fav</span> <span class="o">=</span> <span class="n">g</span>
+<a name="listingsgpx-updatepy-95"></a>            <span class="n">fav_time</span> <span class="o">=</span> <span class="n">fav</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"//g:time"</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">NS</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<a name="listingsgpx-updatepy-96"></a>            <span class="n">fav_bounds</span> <span class="o">=</span> <span class="n">fav</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"//g:bounds"</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">NS</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<a name="listingsgpx-updatepy-97"></a>        <span class="k">else</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-98"></a>            <span class="n">g_time</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"//g:time"</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">NS</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-99"></a>            <span class="k">if</span> <span class="n">g_time</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-100"></a>                <span class="n">g_time</span> <span class="o">=</span> <span class="n">g_time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<a name="listingsgpx-updatepy-101"></a>                <span class="k">if</span> <span class="n">g_time</span><span class="o">.</span><span class="n">text</span> <span class="o">&gt;</span> <span class="n">fav_time</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-102"></a>                    <span class="n">fav_time</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">g_time</span><span class="o">.</span><span class="n">text</span>
+<a name="listingsgpx-updatepy-103"></a>
+<a name="listingsgpx-updatepy-104"></a>            <span class="n">g_bounds</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"//g:bounds"</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">NS</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-105"></a>            <span class="k">if</span> <span class="n">g_bounds</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-106"></a>                <span class="n">g_bounds</span> <span class="o">=</span> <span class="n">g_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<a name="listingsgpx-updatepy-107"></a>                <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">g_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"minlon"</span><span class="p">))</span> <span class="o">&lt;</span> <span class="nb">float</span><span class="p">(</span><span class="n">fav_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"minlon"</span><span class="p">)):</span>
+<a name="listingsgpx-updatepy-108"></a>                    <span class="n">fav_bounds</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"minlon"</span><span class="p">,</span> <span class="n">g_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"minlon"</span><span class="p">))</span>
+<a name="listingsgpx-updatepy-109"></a>                <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">g_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"minlat"</span><span class="p">))</span> <span class="o">&lt;</span> <span class="nb">float</span><span class="p">(</span><span class="n">fav_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"minlat"</span><span class="p">)):</span>
+<a name="listingsgpx-updatepy-110"></a>                    <span class="n">fav_bounds</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"minlat"</span><span class="p">,</span> <span class="n">g_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"minlat"</span><span class="p">))</span>
+<a name="listingsgpx-updatepy-111"></a>                <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">g_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"maxlon"</span><span class="p">))</span> <span class="o">&gt;</span> <span class="nb">float</span><span class="p">(</span><span class="n">fav_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"maxlon"</span><span class="p">)):</span>
+<a name="listingsgpx-updatepy-112"></a>                    <span class="n">fav_bounds</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"maxlon"</span><span class="p">,</span> <span class="n">g_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"maxlon"</span><span class="p">))</span>
+<a name="listingsgpx-updatepy-113"></a>                <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">g_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"maxlat"</span><span class="p">))</span> <span class="o">&gt;</span> <span class="nb">float</span><span class="p">(</span><span class="n">fav_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"maxlat"</span><span class="p">)):</span>
+<a name="listingsgpx-updatepy-114"></a>                    <span class="n">fav_bounds</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"maxlat"</span><span class="p">,</span> <span class="n">g_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"maxlat"</span><span class="p">))</span>
+<a name="listingsgpx-updatepy-115"></a>
+<a name="listingsgpx-updatepy-116"></a>            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"//g:wpt"</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">NS</span><span class="p">):</span>
+<a name="listingsgpx-updatepy-117"></a>                <span class="n">fav</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span><span class="o">.</span><span class="n">getchildren</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span><span class="o">.</span><span class="n">text</span>         <span class="c1"># i'm OCD, maintain indentation</span>
+<a name="listingsgpx-updatepy-118"></a>                <span class="n">fav</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-119"></a>
+<a name="listingsgpx-updatepy-120"></a>    <span class="n">fav</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-121"></a>    <span class="k">return</span> <span class="mi">0</span>
+<a name="listingsgpx-updatepy-122"></a>
+<a name="listingsgpx-updatepy-123"></a><span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+<a name="listingsgpx-updatepy-124"></a>    <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">"sh"</span><span class="p">],</span> <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span><span class="o">.</span><span class="n">communicate</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s2">"""</span>
+<a name="listingsgpx-updatepy-125"></a><span class="s2">pkg=net.osmand.plus</span>
+<a name="listingsgpx-updatepy-126"></a><span class="s2">adb shell am force-stop $pkg</span>
+<a name="listingsgpx-updatepy-127"></a><span class="s2">adb shell su -c "find /data/data/$pkg/ /sdcard/Android/data/$pkg/ -name 'favourites_*.gpx' -delete"</span>
+<a name="listingsgpx-updatepy-128"></a><span class="s2">adb push "</span><span class="si">%s</span><span class="s2">" /sdcard/Android/data/$pkg/files/favourites.gpx</span>
+<a name="listingsgpx-updatepy-129"></a><span class="s2">"""</span> <span class="o">%</span> <span class="n">f</span><span class="p">)</span>
+<a name="listingsgpx-updatepy-130"></a>    <span class="k">return</span> <span class="mi">0</span>
+<a name="listingsgpx-updatepy-131"></a>
+<a name="listingsgpx-updatepy-132"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-133"></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"-i"</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-134"></a>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">install</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+<a name="listingsgpx-updatepy-135"></a>    <span class="k">else</span><span class="p">:</span>
+<a name="listingsgpx-updatepy-136"></a>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">export</span><span class="p">(</span><span class="o">*</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+</pre></td>
+</tr></table>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2018         <a href="mailto:infinity0@pwned.gg">Ximin Luo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../assets/js/jquery.min.js"></script><script src="../assets/js/bootstrap.min.js"></script><script src="../assets/js/moment-with-locales.min.js"></script><script src="../assets/js/fancydates.js"></script><script src="../assets/js/jquery.colorbox-min.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

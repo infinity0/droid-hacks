@@ -6,11 +6,66 @@
  * @author: Kalyan Chakravarthy (http://KalyanChakravarthy.net)
  * @version: v0.1
  */
-(function($) {
+(function() {
     //$("#container2").css( 'border', '1px solid #ccc');
-    $.fn.flowr = function(options) {
 
-        $this = this;
+
+    flowr = function(elem, options) {
+
+        $this = elem;
+
+        var extend = function(out) {
+          out = out || {};
+
+          for (var i = 1; i < arguments.length; i++) {
+            if (!arguments[i])
+              continue;
+
+            for (var key in arguments[i]) {
+              if (arguments[i].hasOwnProperty(key))
+                out[key] = arguments[i][key];
+            }
+          }
+
+          return out;
+        };
+
+
+        var data = (function() {
+        var lastId = 0,
+            store = {};
+
+        return {
+            set: function(element, info) {
+                var id;
+                if (element.myCustomDataTag === undefined) {
+                    id = lastId++;
+                    element.myCustomDataTag = id;
+                } else { id = element.myCustomDataTag; }
+                store[id] = extend(store[id], info);
+            },
+
+            get: function(element) {
+                return store[element.myCustomDataTag] || {};
+            }
+        };
+        }());
+
+        function reorderContent() {
+            var _initialWidth = data.get($this).width;
+            var _newWidth = $this.offsetWidth;
+            var _change = _initialWidth - _newWidth;
+
+            if (_initialWidth != _newWidth) {
+                $this.innerHTML = "";
+                var _settings = data.get($this).lastSettings || {};
+                _settings.data = data.get($this).data || {};
+                _settings.maxWidth = $this.offsetWidth - 1;
+                flowr($this, _settings);
+            }
+        }
+
+
         var ROW_CLASS_NAME = 'flowr-row'; // Class name for the row of flowy
         var MAX_LAST_ROW_GAP = 25; // If the width of last row is lesser than max-width, recalculation is needed
         var NO_COPY_FIELDS = ['complete', 'data', 'responsive']; // these attributes will not be carried forward for append related calls
@@ -23,7 +78,7 @@
             'widthAttr': 'width', // a custom data structure can specify which attribute refers to height/width
             'heightAttr': 'height',
             'maxScale': 1.5, // In case there is only 1 elment in last row
-            'maxWidth': this.width() - 1, // 1px is just for offset
+            'maxWidth': $this.offsetWidth - 1, // 1px is just for offset
             'itemWidth': null, // callback function for width
             'itemHeight': null, // callback function for height
             'complete': null, // complete callback
@@ -31,12 +86,13 @@
             'rows': -1, // Maximum number of rows to render. -1 for no limit.
             'responsive': true // make content responsive
         };
-        var settings = $.extend(DEFAULTS, options);
+
+        var settings = extend(DEFAULTS, options);
 
         // If data is being appended, we already have settings
         // If we already have settings, retrieve them
-        if (settings.append && $this.data('lastSettings')) {
-            lastSettings = $this.data('lastSettings');
+        if (settings.append && data.get($this).lastSettings) {
+            lastSettings = data.get($this).lastSettings;
 
             // Copy over the settings from previous init
             for (attr in DEFAULTS) {
@@ -46,7 +102,7 @@
             }
 
             // Check if we have an incomplete last row
-            lastRow = $this.data('lastRow');
+            lastRow = data.get($this).lastRow;
             if (lastRow.data.length > 0 && settings.maxWidth - lastRow.width > MAX_LAST_ROW_GAP) {
                 // Prepend the incomplete row to newly loaded data and redraw
                 lastRowData = lastSettings.data.slice(lastSettings.data.length - lastRow.data.length - 1);
@@ -84,10 +140,7 @@
             }
         }
 
-        // A standalone utility to calculate the item widths for a particular row
-        // Returns rowWidth: width occupied & data : the items in the new row
-        var utils = {
-                getNextRow: function(data, settings) {
+        function getNextRow(data, settings) {
                     var itemIndex = 0;
                     var itemsLength = data.length;
                     var lineItems = [];
@@ -161,87 +214,71 @@
                         data: lineItems,
                         width: testWidth + requiredPadding()
                     };
-                }, //getNextRow
-                reorderContent: function() {
-                    /*
-                     TODO: optimize for faster resizing by reusing dom objects instead of killing the dom
-                     */
-                    var _initialWidth = $this.data('width');
-                    var _newWidth = $this.width();
-                    var _change = _initialWidth - _newWidth;
-
-                    if (_initialWidth != _newWidth) {
-                        $this.html('');
-                        var _settings = $this.data('lastSettings');
-                        _settings.data = $this.data('data');
-                        _settings.maxWidth = $this.width() - 1;
-                        $this.flowr(_settings);
-                    }
                 }
-            } //utils
+
 
         // If the responsive var is set to true then listen for resize method
         // and prevent resizing from happening twice if responsive is set again during append phase!
-        if (settings.responsive && !$this.data('__responsive')) {
-            $(window).resize(function() {
-                initialWidth = $this.data('width');
-                newWidth = $this.width();
+        if (settings.responsive && !data.get($this).__responsive) {
+            window.addEventListener('resize', function() {
+                initialWidth = data.get($this).width;
+                newWidth = $this.offsetWidth;
 
                 //initiate resize
                 if (initialWidth != newWidth) {
-                    var task_id = $this.data('task_id');
+                    var task_id = data.get($this).task_id;
                     if (task_id) {
                         task_id = clearTimeout(task_id);
                         task_id = null;
                     }
-                    task_id = setTimeout(utils.reorderContent, 80);
-                    $this.data('task_id', task_id);
+                    task_id = setTimeout(function() {reorderContent(data);}, 80);
+                    data.set($this, {task_id: task_id});
                 }
             });
-            $this.data('__responsive', true);
+            data.set($this, {__responsive: true});
         }
 
 
-        return this.each(function() {
-
             // Get a copy of original data. 1 level deep copy is sufficient.
-            var data = settings.data.slice(0);
+            var _data = settings.data.slice(0);
             var rowData = null;
             var currentRow = 0;
             var currentItem = 0;
 
             // Store all the data
             var allData = [];
-            for (i = 0; i < data.length; i++) {
-                allData.push(data[i]);
+            for (i = 0; i < _data.length; i++) {
+                allData.push(_data[i]);
             }
-            $this.data('data', allData);
+            data.set($this, {data: allData});
 
             // While we have a new row
-            while ((rowData = utils.getNextRow(data, settings)) != null && rowData.data.length > 0) {
+            while ((rowData = getNextRow(_data, settings)) != null && rowData.data.length > 0) {
                 if (settings.rows > 0 && currentRow >= settings.rows)
                     break;
                 // remove the number of elements in the new row from the top of data stack
-                data.splice(0, rowData.data.length);
+                _data.splice(0, rowData.data.length);
 
                 // Create a new row div, add class, append the htmls and insert the flowy items
-                var $row = $('<div>').addClass(settings.rowClassName);
-                var slack = $this[0].clientWidth - rowData.width - 2 * settings.padding
+                var $row = document.createElement('DIV');
+                if ($row.classList)
+                    $row.classList.add(settings.rowClassName);
+                else
+                    $row.className += ' ' + settings.rowClassName;
+                var slack = $this.clientWidth - rowData.width - 2 * settings.padding
                 for (i = 0; i < rowData.data.length; i++) {
                     var displayData = rowData.data[i];
                     // Get the HTML object from custom render function passed as argument
                     var displayObject = settings.render.call($this, displayData);
-                    displayObject = $(displayObject);
                     extraw = Math.floor(slack/rowData.data.length)
                     if (i == 0) {
                         extraw += slack % rowData.data.length
                     }
                     // Set some basic stuff
-                    displayObject
-                        .css('width', displayData.width + extraw)
-                        .css('height', displayData.height)
-                        .css('margin-bottom', settings.padding + "px")
-                        .css('margin-left', i == 0 ? '0' : settings.padding + "px"); //TODO:Refactor
+                    displayObject.style.width = displayData.width + extraw;
+                    displayObject.style.height = displayData.height;
+                    displayObject.style.marginBottom = settings.padding + "px";
+                    displayObject.style.marginLeft = i == 0 ? '0' : settings.padding + "px";
                     $row.append(displayObject);
 
                     currentItem++;
@@ -250,11 +287,11 @@
                 // console.log ( "I> rowData.data.length="+rowData.data.length +"   rowData.width="+rowData.width );
 
                 currentRow++;
-                $this.data('lastRow', rowData);
+                data.set($this, {lastRow: rowData});
             }
             // store the current state of settings and the items in last row
             // we'll need this info when we append more items
-            $this.data('lastSettings', settings);
+            data.set($this, {lastSettings: settings});
 
             // onComplete callback
             // pass back info about list of rows and items rendered
@@ -265,7 +302,6 @@
                 }
                 settings.complete.call($this, completeData);
             }
-        });
     };
 
-})(jQuery);
+})();

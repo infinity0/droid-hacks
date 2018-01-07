@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Remove unnecessary sensor hardware | Android FOSS+H hacks</title>
+<title>Enforce internet access through Tor | Android FOSS+H hacks</title>
 <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/html4css1.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_rst.css" rel="stylesheet" type="text/css">
@@ -13,14 +13,17 @@
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="https://infinity0.github.io/droid-hacks/hw/nospy/">
+<link rel="canonical" href="https://infinity0.github.io/droid-hacks/sw/firewall/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Ximin Luo">
 <meta property="og:site_name" content="Android FOSS+H hacks">
-<meta property="og:title" content="Remove unnecessary sensor hardware">
-<meta property="og:url" content="https://infinity0.github.io/droid-hacks/hw/nospy/">
-<meta property="og:description" content="Write your page here.">
+<meta property="og:title" content="Enforce internet access through Tor">
+<meta property="og:url" content="https://infinity0.github.io/droid-hacks/sw/firewall/">
+<meta property="og:description" content="Block unwanted internet access system-wide, and force other traffic through
+Tor. Of course, one can add exceptions to allow specific applications to access
+the internet directly.
+Previously I achieved">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2016-01-20T20:25:39Z">
+<meta property="article:published_time" content="2017-12-26T00:00:00Z">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -76,12 +79,38 @@
         <div class="row">
             
             
-<article class="post-text storypage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Remove unnecessary sensor hardware</a></h1>
+<article class="post-text storypage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Enforce internet access through Tor</a></h1>
 
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <p>Write your page here.</p>
+    <div>
+<p>Block unwanted internet access system-wide, and force other traffic through
+Tor. Of course, one can add exceptions to allow specific applications to access
+the internet directly.</p>
+<p>Previously I achieved this through Orwall, but that is no longer maintained and
+has several open bugs that need awkward manual work-arounds. The following
+approach seems to work better for me, pending clarification of <a class="reference external" href="https://github.com/ukanth/afwall/issues/789">this issue</a>.</p>
+<div class="section" id="android-7-1-1">
+<h2>Android 7.1.1</h2>
+<p>AFWall+</p>
+<ul class="simple">
+<li>Preferences &gt; Rules/Connectivitey &gt; LAN control [check]</li>
+<li>Preferences &gt; Rules/Connectivitey &gt; VPN control [check]</li>
+<li>Mode: Allow selected</li>
+<li>Applications rules:
+* Orbot:       Allow LAN, WiFi, Mobile
+* (tethering): Allow LAN, VPN
+* (Any app):   Allow VPN
+* [bypass]:    Allow LAN, WiFi, Mobile [i.e. same as Orbot]</li>
+</ul>
+<p>Orbot</p>
+<ul class="simple">
+<li>Menu &gt; Apps VPN mode [toggle on]</li>
+<li>Apps &gt; select the apps you want to force through Tor</li>
+</ul>
+</div>
+</div>
     </div>
     
 
