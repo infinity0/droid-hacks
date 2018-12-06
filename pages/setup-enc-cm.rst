@@ -1,4 +1,4 @@
-.. title: Basic setup: CyanogenMod with device encryption
+.. title: Basic setup: microG LineageOS with device encryption
 .. slug: setup-enc-cm
 .. date: 2016-01-21
 .. tags:
@@ -20,7 +20,12 @@ Rough steps
 
 2. Boot into recovery, then install via ADB sideload.
 
-3. Boot into system, then encrypt your phone (Android 6+ don't need this).
+3. Boot into system, then encrypt your phone (Android > 6 doesn't need this,
+   it's all encrypted by default).
+
+   TODO: how to set a more complex password for the initial bootup decryption?
+   Previously could be achieved with "Cryptfs Password" but it's no longer
+   compatible with Android 7+.
 
 4. For future upgrades: Boot into recovery, decrypt the phone via ``adb shell
    twrp decrypt``, then install via ADB sideload as in (2).
@@ -32,55 +37,73 @@ tell you to install it.
 Recommended apps
 ================
 
-All FOSS and available from F-Droid.
+All F-Droid FOSS
 
-Core
+System, should be already installed as part of microG LineageOS
 
-* Barcode Scanner
-* ConnectBot
-* Cryptfs Password
-* Hash Droid
-* SnoopSnitch / AIMSICD
+* F-Droid, F-Droid Privileged Extension
+* microG Services Core, (MozillaNlpBackend), (NominatimNlpBackend)
 
-Comms
+Comms and security
 
-* ChatSecure, Conversations
-* Orbot + Orwall
+* AFWall+, Orbot
+* andOTP, ConnectBot
+* Conversations, Silence, Signal
 * Orfox
-* SMSSecure
-* LibreSignal (WebSocket) [EXPERIMENTAL], via 3rd-party `Eutopia.cz F-Droid Experimental Repository`_
+* SnoopSnitch / AIMSICD
+* WifiAnalyzer
 
-Data
+Personal data
 
-* DAVDroid + Tasks, see :doc:`sw/owndata`
+* DAVDroid, Tasks, see :doc:`sw/owndata`
 
 Location
 
-* µg UnifiedNlp + LocalGSMNlpBackend, see :doc:`sw/location`
+* LocalGSMNlpBackend, LocalWifiNlpBackend, see :doc:`sw/location`
+* GPSTest, SatStat
+* Mozilla Stumbler
 * OsmAnd~
+* Sky Map (FOSS by Google)
 * Transportr
 
-.. _Eutopia.cz F-Droid Experimental Repository: https://eutopia.cz/experimental/fdroid/repo?fingerprint=A0E4D1D912D8B81809AB18F5B7CF562CD1A10533ED4F7B25E595ABC8D862AD87
+Utilities
+
+* Barcode Scanner
+* Equate
+* Fennec F-Droid
+* Giggity
+* Hash Droid
+* NewPipe
 
 Suggested apps
 ==============
 
-FOSS and available from F-Droid:
+F-Droid FOSS
+------------
 
 * aLogcat ROOT
 * AndIodine
 * ApkTrack
+* Auto Updater for Chromium
 * Open Camera
 * Plumble
 
-Non-free, or uses non-free or centralised services:
+Not from F-Droid, but microG-compatible
+---------------------------------------
 
-* Google Keyboard - ``com.google.android.inputmethod.latin``
-* Google Translate - ``com.google.android.apps.translate``
+* Google Gboard (keyboard with swipe)
+* Google Maps
+* Google Translate
+* Revolut
+* Songkick
+* Soundcloud
+* Spotify
+* VLC
 
 Ask a friend to download these from Google Play, then use `pull-apk.sh
 <../../listings/pull-apk.sh.html>`_ to grab the APKs from their device, then
-install them on your device.
+install them on your device. Later, most of them are updateable from ApkTrack
+so you only have to do this process once.
 
 Disable stock apps
 ==================
