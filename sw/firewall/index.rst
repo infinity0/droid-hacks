@@ -1,6 +1,6 @@
 .. title: Enforce internet access through Tor
 .. slug: sw/firewall
-.. date: 2017-12-26
+.. date: 2018-12-05
 .. tags:
 .. category:
 .. link:
@@ -17,9 +17,9 @@ approach seems to work better for me, pending clarification of `this issue`_.
 
 .. _this issue: https://github.com/ukanth/afwall/issues/789
 
--------------
-Android 7.1.1
--------------
+-----------
+Android 8.1
+-----------
 
 AFWall+
 
@@ -27,12 +27,31 @@ AFWall+
 * Preferences > Rules/Connectivitey > VPN control [check]
 * Mode: Allow selected
 * Applications rules:
-  * Orbot:       Allow LAN, WiFi, Mobile
-  * (tethering): Allow LAN, VPN
-  * (Any app):   Allow VPN
-  * [bypass]:    Allow LAN, WiFi, Mobile [i.e. same as Orbot]
+
+  ==== ==== ==== ==== ===================== ======================================
+  LAN  WiFi Data VPN  Application           Reason why it shouldn't go through Tor
+  ==== ==== ==== ==== ===================== ======================================
+  .    .    .    Y    Any app
+  Y    Y    Y    Y    Orbot                 Ofc Orbot itself can't go through Tor
+  Y    Y    Y    Y    (any other apps you want to bypass Tor)
+  ---- ---- ---- ---- ------------------------------------------------------------
+  .    .    Y    Y    (root)                Mobile internet, need it before Orbot can even access internet
+  .    .    Y    Y    Phone Services, (..)  Mobile internet, need it before Orbot can even access internet
+  .    Y    Y    Y    (gps)                 AGPS, Orbot can't intercept this
+  .    Y    Y    Y    (ntp)                 AGPS, Orbot can't intercept this
+  Y    Y    Y    Y    (tethering)           Tethering, Orbot can't intercept this
+  Y    .    .    Y    VLC                   Chromecast, don't want to put this through Tor
+  ==== ==== ==== ==== ===================== ======================================
 
 Orbot
 
 * Menu > Apps VPN mode [toggle on]
-* Apps > select the apps you want to force through Tor
+* Apps > select the apps you want to force through Tor, which should at the
+  very least include:
+
+  * microG Services Core
+  * Mozilla UnifiedNlp Backend
+  * Mozilla Stumbler
+  * Nominatim Geocoder Backend
+  * GSM Location Service
+  * SatStat

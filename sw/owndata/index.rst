@@ -36,8 +36,6 @@ For a Debian server, install::
 
   # aptitude install calendarserver postgresql
 
-TODO: version 5.2.2 is buggy in Debian, wait for 7.0...
-
 Read ``/usr/share/doc/calendarserver/README.Debian.gz`` on how to configure
 postgresql for calendarserver. If you have calendarserver 7.0, this would be::
 
