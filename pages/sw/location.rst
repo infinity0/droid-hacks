@@ -65,24 +65,67 @@ After installing these, restart your phone, then follow further instructions
 for *µg UnifiedNlp* which will take you through configuration steps for the
 other programs as well.
 
+Make sure it works
+------------------
+
+Install "GPSTest", "SatStat", and "HereGPS". Currently it's a bit stupid but
+you do need to install all of them for the following functionality:
+
+- GPSTest has a "clear AGPS" option
+- SatStat has a "reload APGS" option
+- HereGPS shows you *when* each source (Network, GPS) was last updated.
+
+Annoyingly, I haven't found an app that contains all three features. >:[
+
+``gps.conf`` is the important thing. This file is located in different paths
+depending on your phone, use ``adb shell`` and ``find(1)`` to find it yourself.
+We are now going to edit it, since the stock one provided by LineageOS is not
+very suitable for many phones. You may need to run something like ``mount -o
+remount,rw /vendor`` as root in adb if the partition containing ``gps.conf`` is
+mounted read-only.
+
+There is some good information about the file contents here:
+
+https://rootzwiki.com/topic/28989-the-end-all-be-all-guide-to-your-gps/
+
+Read the whole thread. Then to get you started, download one of these `custom
+gps.conf`_ files. These are pretty good but still contain some mistakes, so
+edit it further after downloading it, based on the above thread. For example, I
+had to remove extraneous NTP servers and placeholder "FQDN" entries for
+``SUPL_HOST`` and ``SUPL_TLS_HOST``. I also had to download the correct root
+cert for the ``SUPL_TLS_HOST``::
+
+  $ openssl s_client -connect $SUPL_TLS_HOST:$SUPL_SECURE_PORT -prexit -showcerts
+
+It will output a bunch of stuff. Only proceed if near the bottom you see
+"Verify return code: 0 (ok)". Then, find the root certificate (probably the
+last one that was output), paste it into a new file ``SuplRootCert.pem``, then
+run::
+
+  $ openssl x509 -in SuplRootCert.pem -outform DER -out SuplRootCert
+
+You can then copy ``SuplRootCert`` into your phone. Put it next to ``gps.conf``
+and then set the entry for ``SUPL_TLS_CERT`` to point to it.
+
+When you're all done, restart your phone and go somewhere with good GPS signal
+(i.e. outside or near a window) and good cell signal. Then, use the apps
+Imentioned above to make sure everything's working correctly. You might have to
+dick around a bit, but hopefully the ``gps.conf`` tips helped a lot.
+
+Next steps
+----------
+
 To replace **Google Maps**, use `OsmAnd+`_. It has completely offline vector
 maps, that are incredibly detailed, with public transport and address data, as
 well as offline navigation. The main downside is that redrawing the map when
 you move or resize takes about 2-3 seconds, but you get used to it quickly.
 
-If your GPS is slow, install "GPSTest" and "SatStat". Currently it's a bit
-stupid but you do need to install both, GPSTest has a "clear AGPS" option and
-"SatStat" has a "reload APGS" option and you might need to use both to get your
-GPS working correctly again. You can also try using one of these `custom
-gps.conf`_ files as your ``gps.conf``. This file is located in different paths
-depending on your phone, use ``adb shell`` and ``find(1)`` to find it yourself.
-
 Finally, don't forget to update your data every once in a while. Of the apps
 mentioned on this page, that is *LocalGsmNlpBackend* which you access *via* the
-*UnifiedNlp* app, and *OsmAnd~*. At present, neither of these apps will alert
-you about out-of-date data, but in practice this hasn't been a problem for me.
-Just remember to do it every month, or longer is probably fine too - and you
-can even set a :doc:`calendar event <sw/owndata>` for that. :)
+*microG Services Core* app, and *OsmAnd~*. At present, neither of these apps
+will alert you about out-of-date data, but in practice this hasn't been a
+problem for me. Just remember to do it every month, or longer is probably fine
+too - and you can even set a :doc:`calendar event <sw/owndata>` for that. :)
 
 .. _LineagoOS for microG: https://lineage.microg.org/
 .. _microG Fdroid repo: https://microg.org/fdroid.html
