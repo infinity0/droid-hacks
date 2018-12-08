@@ -133,22 +133,60 @@ you should switch it off when you are in a familiar place, to save battery.</li>
 <p>After installing these, restart your phone, then follow further instructions
 for <em>µg UnifiedNlp</em> which will take you through configuration steps for the
 other programs as well.</p>
+<div class="section" id="make-sure-it-works">
+<h3>Make sure it works</h3>
+<p>Install "GPSTest", "SatStat", and "HereGPS". Currently it's a bit stupid but
+you do need to install all of them for the following functionality:</p>
+<ul class="simple">
+<li>GPSTest has a "clear AGPS" option</li>
+<li>SatStat has a "reload APGS" option</li>
+<li>HereGPS shows you <em>when</em> each source (Network, GPS) was last updated.</li>
+</ul>
+<p>Annoyingly, I haven't found an app that contains all three features. &gt;:[</p>
+<p><tt class="docutils literal">gps.conf</tt> is the important thing. This file is located in different paths
+depending on your phone, use <tt class="docutils literal">adb shell</tt> and <tt class="docutils literal">find(1)</tt> to find it yourself.
+We are now going to edit it, since the stock one provided by LineageOS is not
+very suitable for many phones. You may need to run something like <tt class="docutils literal">mount <span class="pre">-o</span>
+remount,rw /vendor</tt> as root in adb if the partition containing <tt class="docutils literal">gps.conf</tt> is
+mounted read-only.</p>
+<p>There is some good information about the file contents here:</p>
+<p><a class="reference external" href="https://rootzwiki.com/topic/28989-the-end-all-be-all-guide-to-your-gps/">https://rootzwiki.com/topic/28989-the-end-all-be-all-guide-to-your-gps/</a></p>
+<p>Read the whole thread. Then to get you started, download one of these <a class="reference external" href="https://app.box.com/s/w57s1v1n3hie7l5lk28i">custom
+gps.conf</a> files. These are pretty good but still contain some mistakes, so
+edit it further after downloading it, based on the above thread. For example, I
+had to remove extraneous NTP servers and placeholder "FQDN" entries for
+<tt class="docutils literal">SUPL_HOST</tt> and <tt class="docutils literal">SUPL_TLS_HOST</tt>. I also had to download the correct root
+cert for the <tt class="docutils literal">SUPL_TLS_HOST</tt>:</p>
+<pre class="literal-block">
+$ openssl s_client -connect $SUPL_TLS_HOST:$SUPL_SECURE_PORT -prexit -showcerts
+</pre>
+<p>It will output a bunch of stuff. Only proceed if near the bottom you see
+"Verify return code: 0 (ok)". Then, find the root certificate (probably the
+last one that was output), paste it into a new file <tt class="docutils literal">SuplRootCert.pem</tt>, then
+run:</p>
+<pre class="literal-block">
+$ openssl x509 -in SuplRootCert.pem -outform DER -out SuplRootCert
+</pre>
+<p>You can then copy <tt class="docutils literal">SuplRootCert</tt> into your phone. Put it next to <tt class="docutils literal">gps.conf</tt>
+and then set the entry for <tt class="docutils literal">SUPL_TLS_CERT</tt> to point to it.</p>
+<p>When you're all done, restart your phone and go somewhere with good GPS signal
+(i.e. outside or near a window) and good cell signal. Then, use the apps
+Imentioned above to make sure everything's working correctly. You might have to
+dick around a bit, but hopefully the <tt class="docutils literal">gps.conf</tt> tips helped a lot.</p>
+</div>
+<div class="section" id="next-steps">
+<h3>Next steps</h3>
 <p>To replace <strong>Google Maps</strong>, use <a class="reference external" href="https://f-droid.org/repository/browse/?fdid=net.osmand.plus">OsmAnd+</a>. It has completely offline vector
 maps, that are incredibly detailed, with public transport and address data, as
 well as offline navigation. The main downside is that redrawing the map when
 you move or resize takes about 2-3 seconds, but you get used to it quickly.</p>
-<p>If your GPS is slow, install "GPSTest" and "SatStat". Currently it's a bit
-stupid but you do need to install both, GPSTest has a "clear AGPS" option and
-"SatStat" has a "reload APGS" option and you might need to use both to get your
-GPS working correctly again. You can also try using one of these <a class="reference external" href="https://app.box.com/s/w57s1v1n3hie7l5lk28i">custom
-gps.conf</a> files as your <tt class="docutils literal">gps.conf</tt>. This file is located in different paths
-depending on your phone, use <tt class="docutils literal">adb shell</tt> and <tt class="docutils literal">find(1)</tt> to find it yourself.</p>
 <p>Finally, don't forget to update your data every once in a while. Of the apps
 mentioned on this page, that is <em>LocalGsmNlpBackend</em> which you access <em>via</em> the
-<em>UnifiedNlp</em> app, and <em>OsmAnd~</em>. At present, neither of these apps will alert
-you about out-of-date data, but in practice this hasn't been a problem for me.
-Just remember to do it every month, or longer is probably fine too - and you
-can even set a <a class="reference external" href="../owndata/">calendar event</a> for that. :)</p>
+<em>microG Services Core</em> app, and <em>OsmAnd~</em>. At present, neither of these apps
+will alert you about out-of-date data, but in practice this hasn't been a
+problem for me. Just remember to do it every month, or longer is probably fine
+too - and you can even set a <a class="reference external" href="../owndata/">calendar event</a> for that. :)</p>
+</div>
 </div>
 </div>
     </div>
