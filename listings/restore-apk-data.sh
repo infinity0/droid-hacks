@@ -4,6 +4,8 @@
 set -e
 package="$1"
 
+cd "$(dirname "$(readlink -f "$0")")"
+
 chmod 771 "$package"
 chown -hR "$(stat -c %u:%g ../$package                    )" "$package"
 chcon -hR "$(ls -Zd        ../$package     | cut '-d ' -f1)" "$package"
