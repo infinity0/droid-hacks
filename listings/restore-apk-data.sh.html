@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="restore-apk-data.sh">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>restore-apk-data.sh | Android FOSS+H hacks</title>
+<link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/html4css1.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/nikola_rst.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/colorbox.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/theme.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="https://infinity0.github.io/droid-hacks/listings/restore-apk-data.sh.html">
+<!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://infinity0.github.io/droid-hacks/">
+
+                <span id="blog-title">Android FOSS+H hacks</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" role="navigation" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../archive.html">Archive</a>
+                </li>
+<li>
+<a href=".">Code</a>
+                </li>
+<li>
+<a href="../categories/">Tags</a>
+                </li>
+<li>
+<a href="../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="restore-apk-data.sh" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+
+<nav class="breadcrumbs"><ul class="breadcrumb">
+<li><a href=".">listings</a></li>
+                <li>restore-apk-data.sh</li>
+</ul></nav><h1>restore-apk-data.sh
+        <small><a href="restore-apk-data.sh">(Source)</a></small>
+    </h1>
+    <table class="codetable"><tr>
+<td class="linenos"><div class="linenodiv"><pre><a href="#listingsrestore-apk-datash-1"> 1</a>
+<a href="#listingsrestore-apk-datash-2"> 2</a>
+<a href="#listingsrestore-apk-datash-3"> 3</a>
+<a href="#listingsrestore-apk-datash-4"> 4</a>
+<a href="#listingsrestore-apk-datash-5"> 5</a>
+<a href="#listingsrestore-apk-datash-6"> 6</a>
+<a href="#listingsrestore-apk-datash-7"> 7</a>
+<a href="#listingsrestore-apk-datash-8"> 8</a>
+<a href="#listingsrestore-apk-datash-9"> 9</a>
+<a href="#listingsrestore-apk-datash-10">10</a>
+<a href="#listingsrestore-apk-datash-11">11</a>
+<a href="#listingsrestore-apk-datash-12">12</a>
+<a href="#listingsrestore-apk-datash-13">13</a>
+<a href="#listingsrestore-apk-datash-14">14</a>
+<a href="#listingsrestore-apk-datash-15">15</a>
+<a href="#listingsrestore-apk-datash-16">16</a>
+<a href="#listingsrestore-apk-datash-17">17</a>
+<a href="#listingsrestore-apk-datash-18">18</a>
+<a href="#listingsrestore-apk-datash-19">19</a></pre></div></td>
+<td class="code"><pre class="code literal-block"><a name="listingsrestore-apk-datash-1"></a><span class="ch">#!/bin/sh</span>
+<a name="listingsrestore-apk-datash-2"></a><span class="c1"># Run this in /data/data/restore/ after you extract the backup.tar, and after</span>
+<a name="listingsrestore-apk-datash-3"></a><span class="c1"># opening up the app for the first time (so expected files are created).</span>
+<a name="listingsrestore-apk-datash-4"></a><span class="nb">set</span> -e
+<a name="listingsrestore-apk-datash-5"></a><span class="nv">package</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<a name="listingsrestore-apk-datash-6"></a>
+<a name="listingsrestore-apk-datash-7"></a><span class="nb">cd</span> <span class="s2">"</span><span class="k">$(</span>dirname <span class="s2">"</span><span class="k">$(</span>readlink -f <span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span>
+<a name="listingsrestore-apk-datash-8"></a>
+<a name="listingsrestore-apk-datash-9"></a>chmod <span class="m">771</span> <span class="s2">"</span><span class="nv">$package</span><span class="s2">"</span>
+<a name="listingsrestore-apk-datash-10"></a>chown -hR <span class="s2">"</span><span class="k">$(</span>stat -c %u:%g ../<span class="nv">$package</span>                    <span class="k">)</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$package</span><span class="s2">"</span>
+<a name="listingsrestore-apk-datash-11"></a>chcon -hR <span class="s2">"</span><span class="k">$(</span>ls -Zd        ../<span class="nv">$package</span>     <span class="p">|</span> cut <span class="s1">'-d '</span> -f1<span class="k">)</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$package</span><span class="s2">"</span>
+<a name="listingsrestore-apk-datash-12"></a><span class="k">if</span> <span class="o">[</span> -h ../<span class="nv">$package</span>/lib <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+<a name="listingsrestore-apk-datash-13"></a>	ln -snf   <span class="s2">"</span><span class="k">$(</span>readlink      ../<span class="nv">$package</span>/lib                <span class="k">)</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$package</span><span class="s2">"</span>/lib
+<a name="listingsrestore-apk-datash-14"></a>	chown -h  <span class="s2">"</span><span class="k">$(</span>stat -c %u:%g ../<span class="nv">$package</span>/lib                <span class="k">)</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$package</span><span class="s2">"</span>/lib
+<a name="listingsrestore-apk-datash-15"></a>	chcon -h  <span class="s2">"</span><span class="k">$(</span>ls -Zd        ../<span class="nv">$package</span>/lib <span class="p">|</span> cut <span class="s1">'-d '</span> -f1<span class="k">)</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$package</span><span class="s2">"</span>/lib
+<a name="listingsrestore-apk-datash-16"></a><span class="k">fi</span>
+<a name="listingsrestore-apk-datash-17"></a>chmod <span class="m">751</span> <span class="s2">"</span><span class="nv">$package</span><span class="s2">"</span>
+<a name="listingsrestore-apk-datash-18"></a>mv <span class="s2">"../</span><span class="nv">$package</span><span class="s2">"</span> <span class="s2">"../_old_</span><span class="nv">$package</span><span class="s2">"</span>
+<a name="listingsrestore-apk-datash-19"></a>mv <span class="s2">"</span><span class="nv">$package</span><span class="s2">"</span> ..
+</pre></td>
+</tr></table>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2019         <a href="mailto:infinity0@pwned.gg">Ximin Luo</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../assets/js/jquery.min.js"></script><script src="../assets/js/bootstrap.min.js"></script><script src="../assets/js/moment-with-locales.min.js"></script><script src="../assets/js/fancydates.js"></script><script src="../assets/js/jquery.colorbox-min.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

@@ -108,8 +108,8 @@ You can then copy ``SuplRootCert`` into your phone. Put it next to ``gps.conf``
 and then set the entry for ``SUPL_TLS_CERT`` to point to it.
 
 When you're all done, restart your phone and go somewhere with good GPS signal
-(i.e. outside or near a window) and good cell signal. Then, use the apps
-Imentioned above to make sure everything's working correctly. You might have to
+(i.e. outside or near a window) and good cell signal. Then, use the apps I
+mentioned above to make sure everything's working correctly. You might have to
 dick around a bit, but hopefully the ``gps.conf`` tips helped a lot.
 
 Next steps
