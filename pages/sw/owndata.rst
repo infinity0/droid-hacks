@@ -181,7 +181,9 @@ Here, ``$client_hs_address`` is one of the addresses (you pick which one) that
 your Tor stealth service generated.
 
 This also works on Orbot - go into Settings and look for "Torrc Custom Config"
-near the bottom.
+near the bottom. With Android 10 you also need to disable "Private DNS" in your
+system settings, see `orbot#262 <https://github.com/guardianproject/orbot/issues/262>`_
+for details.
 
 Bypass Tor on a localhost client
 ````````````````````````````````
