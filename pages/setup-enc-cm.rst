@@ -55,7 +55,7 @@ Comms and security
 
 Personal data
 
-* DAVDroid, Tasks, see :doc:`sw/owndata`
+* DAVx5, Tasks, see :doc:`sw/owndata`
 
 Location
 
