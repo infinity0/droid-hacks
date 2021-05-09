@@ -17,9 +17,9 @@ approach seems to work better for me, pending clarification of `this issue`_.
 
 .. _this issue: https://github.com/ukanth/afwall/issues/789
 
------------
-Android 8.1
------------
+----------
+Android 10
+----------
 
 AFWall+
 
@@ -28,20 +28,21 @@ AFWall+
 * Mode: Allow selected
 * Applications rules:
 
-  ==== ==== ==== ==== ===================== ======================================
-  LAN  WiFi Data VPN  Application           Reason why it shouldn't go through Tor
-  ==== ==== ==== ==== ===================== ======================================
+  ==== ==== ==== ==== ============================== ======================================
+  LAN  WiFi Data VPN  Application                    Reason why it shouldn't go through Tor
+  ==== ==== ==== ==== ============================== ======================================
   .    .    .    Y    Any app
-  Y    Y    Y    Y    Orbot                 Ofc Orbot itself can't go through Tor
+  Y    Y    Y    Y    Orbot                          Ofc Orbot itself can't go through Tor
   Y    Y    Y    Y    (any other apps you want to bypass Tor)
-  ---- ---- ---- ---- ------------------------------------------------------------
-  .    .    Y    Y    (root)                Mobile internet, need it before Orbot can even access internet
-  .    .    Y    Y    Phone Services, (..)  Mobile internet, need it before Orbot can even access internet
-  .    Y    Y    Y    (gps)                 AGPS, Orbot can't intercept this
-  .    Y    Y    Y    (ntp)                 AGPS, Orbot can't intercept this
-  Y    Y    Y    Y    (tethering)           Tethering, Orbot can't intercept this
-  Y    .    .    Y    VLC                   Chromecast, don't want to put this through Tor
-  ==== ==== ==== ==== ===================== ======================================
+  ---- ---- ---- ---- ---------------------------------------------------------------------
+  .    .    Y    Y    (root)                         Mobile internet, need it before Orbot can even access internet
+  .    .    Y    Y    Phone Services, (..)           Mobile internet, need it before Orbot can even access internet
+  .    Y    Y    Y    NetworkPermissionConfig, (..)  Internet connectivity detection
+  .    Y    Y    Y    (gps)                          AGPS, Orbot can't intercept this
+  .    Y    Y    Y    (ntp)                          AGPS, Orbot can't intercept this
+  Y    Y    Y    Y    (tethering)                    Tethering, Orbot can't intercept this
+  Y    .    .    Y    VLC                            Chromecast, don't want to put this through Tor
+  ==== ==== ==== ==== ============================== ======================================
 
 Orbot
 
@@ -55,3 +56,4 @@ Orbot
   * Nominatim Geocoder Backend
   * GSM Location Service
   * SatStat
+  * Updater -- i.e. LineageOS Updater
