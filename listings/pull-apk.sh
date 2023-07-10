@@ -5,25 +5,29 @@
 # You can see the package name of an app by going to Settings > Apps
 #
 # $ ./pull-apk.sh <<EOF
-# com.android.vending
-# com.google.android.apps.maps
 # com.google.android.gms
-# com.google.android.youtube
-# de.srlabs.snoopsnitch
-# edu.cmu.cylab.starslinger
-# info.guardianproject.otr.app.im
-# org.thoughtcrime.redphone
-# org.thoughtcrime.securesms
 # EOF
 #
 # You can then install these on another device with:
 #
-# $ adb install $local_apk_file # install new
-# $ adb install -r $local_apk_file # upgrade existing
+# $ adb install com.aurora.store_45-0.apk                   # install new
+# $ adb install -r com.aurora.store_45-0.apk                # upgrade existing
+# $ adb install-multiple com.twitter.android_VERSION-*.apk  # install multi-apk package
 #
-while read x; do
-	path="$(adb shell pm path "$x" | sed -e 's/\r//g')"
-	path="${path#package:}"
-	echo >&2 "pull $path"
-	adb pull "$path"
+set -e
+ANDROID_USER="${ANDROID_USER:-0}"
+
+while read pkg; do
+  ver="$(adb shell -n pm list packages --show-versioncode "$pkg" | sed -nre 's/.* versionCode://p' || true)"
+  if [ -z "$ver" ]; then
+    echo >&2 "no version found for: $pkg"
+    continue
+  fi
+  echo "-- $pkg $ver"
+  i=0
+  adb shell -n pm path --user "$ANDROID_USER" "$pkg" | sed -nre 's/^package://p' | while read path; do
+    adb pull "$path" "${pkg}_${ver}-${i}.apk"
+    echo "${pkg}_${ver}-${i}.apk"
+    i=$((i + 1))
+  done
 done
